@@ -1,0 +1,7 @@
+{
+  "name": "barber-app-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
