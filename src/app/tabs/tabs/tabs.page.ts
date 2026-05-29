@@ -5,10 +5,6 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { calendarOutline, timeOutline } from 'ionicons/icons';
@@ -17,17 +13,7 @@ import { calendarOutline, timeOutline } from 'ionicons/icons';
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',
   standalone: true,
-  imports: [
-    IonContent,
-    IonTitle,
-    IonToolbar,
-    IonHeader,
-    IonTabs,
-    IonTabBar,
-    IonTabButton,
-    IonIcon,
-    IonLabel,
-  ],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
 })
 export class TabsPage {
   constructor() {
