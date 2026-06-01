@@ -3,7 +3,7 @@ export interface Appointment {
   user_id: string;
   date: string;
   time: string;
-  status: 'SCHEDULED' | 'CANCELLED' | 'COMPLETED';
+  status: 'SCHEDULED' | 'CANCELED' | 'COMPLETED';
   created_at: string;
   profiles?: {
     full_name: string | null;
