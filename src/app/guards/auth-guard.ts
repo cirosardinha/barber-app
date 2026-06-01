@@ -1,22 +1,31 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth-service';
+import { inject } from '@angular/core';
+import { AuthService } from './../services/auth-service';
 
 export const authGuard: CanActivateFn = async () => {
-  const auth = inject(AuthService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
+  await authService.init();
 
-  if (auth.isLoggedIn()) return true;
-  return router.createUrlTree(['/auth']);
+  if (authService.isLoggedIn()) {
+    return true;
+  }
+
+  router.navigate(['/auth']);
+  return false;
 };
 
 export const adminGuard: CanActivateFn = async () => {
-  const auth = inject(AuthService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await authService.init();
 
-  if (auth.isLoggedIn() && auth.isAdmin()) return true;
-  return router.createUrlTree(['/auth']);
+  if (authService.isLoggedIn() && authService.isAdmin()) {
+    return true;
+  }
+
+  router.navigate(['/auth']);
+  return false;
 };

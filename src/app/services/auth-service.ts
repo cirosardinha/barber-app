@@ -17,24 +17,48 @@ export class AuthService {
   private readonly _role = signal<string>('USER');
   readonly isAdmin = computed(() => this._role() === 'ADMIN');
 
-  constructor() {
-    this.supabase.auth.getSession().then(({ data }) => {
-      this.session.set(data.session);
-      this._loadRole(data.session?.user);
-    });
+  private isInitialized = false;
+  private initPromise: Promise<void> | null = null;
 
-    this.supabase.auth.onAuthStateChange((_event, session) => {
-      this.session.set(session);
-      this._loadRole(session?.user);
-    });
+  constructor() {
+    this.init();
+  }
+
+  async init(): Promise<void> {
+    if (this.isInitialized) {
+      return;
+    }
+
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.initPromise = (async () => {
+      const { data } = await this.supabase.auth.getSession();
+      await this._loadRole(data.session?.user);
+      this.session.set(data.session);
+
+      this.supabase.auth.onAuthStateChange(async (_event, session) => {
+        await this._loadRole(session?.user);
+        this.session.set(session);
+      });
+
+      this.isInitialized = true;
+    })();
+
+    return this.initPromise;
   }
 
   async login(email: string, password: string): Promise<void> {
-    const { error } = await this.supabase.auth.signInWithPassword({
+    const { data, error } = await this.supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) throw error;
+
+    this.session.set(data.session);
+    await this._loadRole(data.session?.user);
+
     this.router.navigate(['/tabs'], { replaceUrl: true });
   }
 
@@ -68,7 +92,7 @@ export class AuthService {
       return;
     }
     const { data } = await this.supabase
-      .from('users')
+      .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single();
