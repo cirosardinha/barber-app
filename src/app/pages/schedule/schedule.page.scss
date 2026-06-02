@@ -1,0 +1,272 @@
+ion-content {
+  --background: #0f0e0c;
+}
+
+ion-header ion-toolbar {
+  --background: #0f0e0c;
+  --border-color: #252218;
+}
+
+ion-title {
+  color: #ede8d8;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+ion-button {
+  --color: #6b6248;
+}
+
+.content-wrapper {
+  padding: 20px 16px 120px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b6248;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 12px;
+}
+
+.section-date {
+  color: #8a8070;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+
+.days-row {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 28px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.day-chip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 0.5px solid #252218;
+  background: #181610;
+  cursor: pointer;
+  transition: all 0.15s;
+  gap: 4px;
+
+  &.active {
+    background: #c8b97a;
+    border-color: #c8b97a;
+
+    .weekday {
+      color: #2e2a1e;
+    }
+
+    .day-number {
+      color: #0f0e0c;
+    }
+  }
+}
+
+.weekday {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b6248;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #8a8070;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.slot-chip {
+  padding: 13px 8px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  border: 0.5px solid #252218;
+  transition: all 0.15s;
+
+  &.available {
+    background: #181610;
+    color: #8a8070;
+    cursor: pointer;
+  }
+
+  &.selected {
+    background: #c8b97a;
+    color: #0f0e0c;
+    border-color: #c8b97a;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &.taken {
+    background: #181610;
+    color: #2e2a1e;
+    cursor: default;
+    text-decoration: line-through;
+  }
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+
+  ion-spinner {
+    --color: #8a8070;
+  }
+}
+
+.empty-message {
+  text-align: center;
+  color: #6b6248;
+  font-size: 14px;
+  padding: 48px 0;
+}
+
+.footer-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px calc(16px + var(--ion-safe-area-bottom));
+  background: #0f0e0c;
+  border-top: 0.5px solid #252218;
+}
+
+.cta-btn {
+  width: 100%;
+  background: #c8b97a;
+  color: #0f0e0c;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  ion-spinner {
+    --color: #0f0e0c;
+  }
+}
+
+.modal-wrapper {
+  padding: 24px 20px 40px;
+  background: #0f0e0c;
+  min-height: 100%;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ede8d8;
+  margin: 0 0 4px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: #6b6248;
+  margin: 0 0 20px;
+}
+
+.modal-card {
+  background: #181610;
+  border: 0.5px solid #252218;
+  border-radius: 12px;
+  padding: 4px 16px;
+  margin-bottom: 20px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+
+  &+& {
+    border-top: 0.5px solid #1c1a12;
+  }
+}
+
+.modal-key {
+  font-size: 13px;
+  color: #6b6248;
+}
+
+.modal-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ede8d8;
+}
+
+.modal-confirm-btn {
+  width: 100%;
+  background: #c8b97a;
+  color: #0f0e0c;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  ion-spinner {
+    --color: #0f0e0c;
+  }
+}
+
+.modal-back-btn {
+  width: 100%;
+  background: transparent;
+  color: #8a8070;
+  border: 0.5px solid #252218;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

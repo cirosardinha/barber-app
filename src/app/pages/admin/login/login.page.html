@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true">
+  <div class="login-wrapper">
+
+    <button class="back-btn" (click)="goBack()">← Voltar</button>
+
+    <div class="brand">
+      <p class="brand-eyebrow">Acesso restrito</p>
+      <h1 class="brand-title">Painel Admin</h1>
+    </div>
+
+    <div class="form-section">
+      <div class="field">
+        <label class="field-label">E-mail</label>
+        <input class="field-input" type="email" placeholder="admin@email.com" [value]="email()"
+          (input)="email.set($any($event.target).value)" (blur)="touch('email')" />
+        @if (emailError()) { <span class="field-error">{{ emailError() }}</span> }
+      </div>
+
+      <div class="field">
+        <label class="field-label">Senha</label>
+        <input class="field-input" type="password" placeholder="••••••" [value]="password()"
+          (input)="password.set($any($event.target).value)" (blur)="touch('password')" (keyup.enter)="login()" />
+        @if (passwordError()) { <span class="field-error">{{ passwordError() }}</span> }
+      </div>
+
+      <button class="submit-btn" [disabled]="isLoading()" (click)="login()">
+        @if (isLoading()) { <ion-spinner name="crescent" /> }
+        @else { Entrar }
+      </button>
+    </div>
+
+  </div>
+</ion-content>

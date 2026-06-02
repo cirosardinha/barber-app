@@ -1,0 +1,227 @@
+ion-content {
+  --background: #0f0e0c;
+}
+
+ion-header ion-toolbar {
+  --background: #0f0e0c;
+  --border-color: #252218;
+}
+
+ion-title {
+  color: #ede8d8;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+ion-button {
+  --color: #6b6248;
+}
+
+.content-wrapper {
+  padding: 20px 16px 40px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b6248;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+
+  &.past-label {
+    margin-top: 24px;
+  }
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+
+  ion-spinner {
+    --color: #8a8070;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 0;
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #8a8070;
+  margin-bottom: 6px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: #6b6248;
+}
+
+.appointment-card {
+  background: #181610;
+  border: 0.5px solid #252218;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.past {
+    opacity: 0.5;
+  }
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-date {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ede8d8;
+}
+
+.card-time {
+  font-size: 13px;
+  color: #6b6248;
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &.scheduled {
+    background: #141f12;
+    color: #7ab87a;
+    border: 0.5px solid #2a5228;
+  }
+
+  &.canceled {
+    background: #1f1010;
+    color: #f09595;
+    border: 0.5px solid #5a2020;
+  }
+
+  &.completed {
+    background: #14120a;
+    color: #c8b97a;
+    border: 0.5px solid #52481a;
+  }
+}
+
+.cancel-btn {
+  font-size: 11px;
+  color: #f09595;
+  border: 0.5px solid #5a2020;
+  background: transparent;
+  border-radius: 7px;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+
+// Modal
+.modal-wrapper {
+  padding: 24px 20px 40px;
+  background: #0f0e0c;
+  min-height: 100%;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ede8d8;
+  margin: 0 0 4px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: #6b6248;
+  margin: 0 0 20px;
+}
+
+.modal-card {
+  background: #181610;
+  border: 0.5px solid #252218;
+  border-radius: 12px;
+  padding: 4px 16px;
+  margin-bottom: 20px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+
+  &+& {
+    border-top: 0.5px solid #1c1a12;
+  }
+}
+
+.modal-key {
+  font-size: 13px;
+  color: #6b6248;
+}
+
+.modal-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ede8d8;
+}
+
+.modal-cancel-btn {
+  width: 100%;
+  background: #5a1a1a;
+  color: #f5e0e0;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  ion-spinner {
+    --color: #f5e0e0;
+  }
+}
+
+.modal-back-btn {
+  width: 100%;
+  background: transparent;
+  color: #8a8070;
+  border: 0.5px solid #252218;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

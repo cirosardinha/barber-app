@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true">
+  <div class="success-wrapper">
+
+    <div class="icon-ring">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="26" r="26" fill="#c8b97a" fill-opacity="0.12" />
+        <path d="M15 26.5L22 33.5L37 18.5" stroke="#c8b97a" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </div>
+
+    <h1 class="title">Agendado!</h1>
+    <p class="subtitle">Seu horário foi confirmado com sucesso.</p>
+
+    @if (date || time) {
+    <div class="detail-card">
+      @if (date) {
+      <div class="detail-row">
+        <span class="detail-key">Data</span>
+        <span class="detail-value">{{ formattedDate }}</span>
+      </div>
+      }
+      @if (time) {
+      <div class="detail-row">
+        <span class="detail-key">Horário</span>
+        <span class="detail-value">{{ time | formatTime }}</span>
+      </div>
+      }
+    </div>
+    }
+
+    <div class="actions">
+      <button class="btn-primary" (click)="goAppointments()">
+        Ver meus agendamentos
+      </button>
+      <button class="btn-secondary" (click)="goHome()">
+        Voltar ao início
+      </button>
+    </div>
+
+  </div>
+</ion-content>

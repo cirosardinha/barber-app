@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Agendar</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-wrapper">
+
+    <p class="section-label">Escolha a data</p>
+    <div class="days-row">
+      @for (day of days(); track day.value) {
+      <div class="day-chip" [class.active]="day.value === selectedDate()" (click)="selectDate(day.value)">
+        <span class="weekday">{{ day.weekday }}</span>
+        <span class="day-number">{{ day.label }}</span>
+      </div>
+      }
+    </div>
+
+    <p class="section-label">
+      Horários disponíveis
+      @if (selectedDate()) {
+      <span class="section-date"> — {{ formattedSelectedDate() }}</span>
+      }
+    </p>
+
+    @if (isLoading()) {
+    <div class="loading-wrapper"><ion-spinner name="crescent" /></div>
+    }
+
+    @if (!isLoading() && filteredSlots().length > 0) {
+    <div class="slots-grid">
+      @for (slot of filteredSlots(); track slot.time) {
+      <div class="slot-chip" [class.available]="slot.available && slot.time !== selectedSlot()"
+        [class.selected]="slot.time === selectedSlot()" [class.taken]="!slot.available" (click)="selectSlot(slot)">
+        {{ slot.time | formatTime }}
+      </div>
+      }
+    </div>
+    }
+
+    @if (!isLoading() && filteredSlots().length === 0) {
+    <p class="empty-message">Nenhum horário disponível para esta data.</p>
+    }
+
+  </div>
+</ion-content>
+
+@if (selectedSlot()) {
+<div class="footer-cta">
+  <button class="cta-btn" (click)="openConfirmModal()">
+    Confirmar {{ selectedSlot() | formatTime }}
+  </button>
+</div>
+}
+
+<ion-modal [isOpen]="showConfirmModal()" (didDismiss)="closeConfirmModal()" [breakpoints]="[0,1]"
+  [initialBreakpoint]="1" handle="true">
+  <ng-template>
+    <div class="modal-wrapper">
+      <h2 class="modal-title">Confirmar agendamento?</h2>
+      <p class="modal-sub">Verifique os detalhes antes de confirmar.</p>
+
+      <div class="modal-card">
+        <div class="modal-row">
+          <span class="modal-key">Data</span>
+          <span class="modal-value">{{ formattedSelectedDate() }}</span>
+        </div>
+        <div class="modal-row">
+          <span class="modal-key">Horário</span>
+          <span class="modal-value">{{ selectedSlot() | formatTime }}</span>
+        </div>
+      </div>
+
+      <button class="modal-confirm-btn" [disabled]="isConfirming()" (click)="confirm()">
+        @if (isConfirming()) { <ion-spinner name="crescent" /> }
+        @else { Confirmar }
+      </button>
+      <button class="modal-back-btn" [disabled]="isConfirming()" (click)="closeConfirmModal()">
+        Voltar
+      </button>
+    </div>
+  </ng-template>
+</ion-modal>

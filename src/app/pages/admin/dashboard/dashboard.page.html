@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Painel
+      @if (newCount() > 0) {
+      <ion-badge color="danger" (click)="clearNewCount()">{{ newCount() }}</ion-badge>
+      }
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="medium" (click)="logout()">Sair</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-wrapper">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-number">{{ scheduledCount() }}</span>
+        <span class="stat-label">Agendados</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ appointments().length }}</span>
+        <span class="stat-label">Total</span>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn" [class.active]="filter() === 'SCHEDULED'"
+        (click)="filter.set('SCHEDULED')">Agendados</button>
+      <button class="filter-btn" [class.active]="filter() === 'COMPLETED'"
+        (click)="filter.set('COMPLETED')">Concluídos</button>
+      <button class="filter-btn" [class.active]="filter() === 'CANCELED'"
+        (click)="filter.set('CANCELED')">Cancelados</button>
+      <button class="filter-btn" [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">Todos</button>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loading-wrapper"><ion-spinner name="crescent" /></div>
+    }
+
+    @if (!isLoading() && filtered().length === 0) {
+    <p class="empty-message">Nenhum agendamento encontrado.</p>
+    }
+
+    @for (appointment of filtered(); track appointment.id) {
+    <div class="appointment-card" [class.dimmed]="appointment.status !== 'SCHEDULED'">
+      <div class="card-top">
+        <div class="card-left">
+          <span class="card-date">{{ formatDate(appointment.date) }}</span>
+          <span class="card-time">{{ appointment.time | formatTime }}</span>
+        </div>
+        <span class="badge" [class.scheduled]="appointment.status === 'SCHEDULED'"
+          [class.completed]="appointment.status === 'COMPLETED'" [class.canceled]="appointment.status === 'CANCELED'">
+          {{ appointment.status === 'SCHEDULED' ? 'Agendado' : appointment.status === 'COMPLETED' ? 'Concluído' : 'Cancelado' }}
+        </span>
+      </div>
+      <div class="card-client">
+        <span class="client-name">{{ appointment.full_name ?? '—' }}</span>
+        <span class="client-phone">{{ appointment.phone_number ?? '' }}</span>
+      </div>
+      @if (appointment.status === 'SCHEDULED') {
+      <div class="card-actions">
+        <button class="action-btn complete" (click)="complete(appointment)">✓ Concluir</button>
+        <button class="action-btn cancel" (click)="cancel(appointment)">✕ Cancelar</button>
+      </div>
+      }
+    </div>
+    }
+
+  </div>
+</ion-content>

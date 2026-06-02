@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meus agendamentos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-wrapper">
+
+    @if (isLoading()) {
+    <div class="loading-wrapper"><ion-spinner name="crescent" /></div>
+    }
+
+    @if (!isLoading() && appointments().length === 0) {
+    <div class="empty-state">
+      <p class="empty-title">Nenhum agendamento</p>
+      <p class="empty-sub">Agende seu horário na aba Agendar.</p>
+    </div>
+    }
+
+    @if (scheduled().length > 0) {
+    <p class="section-label">Agendados</p>
+    @for (a of scheduled(); track a.id) {
+    <div class="appointment-card">
+      <div class="card-info">
+        <span class="card-date">{{ formatDate(a.date) }}</span>
+        <span class="card-time">{{ a.time | formatTime }}</span>
+      </div>
+      <div class="card-actions">
+        <span class="badge scheduled">Agendado</span>
+        <button class="cancel-btn" (click)="openCancel(a)">Cancelar</button>
+      </div>
+    </div>
+    }
+    }
+
+    @if (past().length > 0) {
+    <p class="section-label past-label">Histórico</p>
+    @for (a of past(); track a.id) {
+    <div class="appointment-card past">
+      <div class="card-info">
+        <span class="card-date">{{ formatDate(a.date) }}</span>
+        <span class="card-time">{{ a.time | formatTime }}</span>
+      </div>
+      <div class="card-actions">
+        @if (a.status === 'CANCELED') { <span class="badge canceled">Cancelado</span> }
+        @if (a.status === 'COMPLETED') { <span class="badge completed">Concluído</span> }
+      </div>
+    </div>
+    }
+    }
+
+  </div>
+</ion-content>
+
+<ion-modal [isOpen]="!!appointmentToCancel()" (didDismiss)="closeCancel()" [breakpoints]="[0,1]" [initialBreakpoint]="1"
+  handle="true">
+  <ng-template>
+    <div class="modal-wrapper">
+      <h2 class="modal-title">Cancelar agendamento?</h2>
+      <p class="modal-sub">Essa ação não pode ser desfeita.</p>
+      @if (appointmentToCancel()) {
+      <div class="modal-card">
+        <div class="modal-row">
+          <span class="modal-key">Data</span>
+          <span class="modal-value">{{ formatDate(appointmentToCancel()!.date) }}</span>
+        </div>
+        <div class="modal-row">
+          <span class="modal-key">Horário</span>
+          <span class="modal-value">{{ appointmentToCancel()!.time | formatTime }}</span>
+        </div>
+      </div>
+      }
+      <button class="modal-cancel-btn" [disabled]="isCancelling()" (click)="confirmCancel()">
+        @if (isCancelling()) { <ion-spinner name="crescent" /> }
+        @else { Sim, cancelar }
+      </button>
+      <button class="modal-back-btn" [disabled]="isCancelling()" (click)="closeCancel()">Voltar</button>
+    </div>
+  </ng-template>
+</ion-modal>
