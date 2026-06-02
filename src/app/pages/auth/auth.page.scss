@@ -1,5 +1,5 @@
 ion-content {
-  --background: #0f0e0c;
+  --background: var(--ion-background-color);
 }
 
 .auth-wrapper {
@@ -20,8 +20,8 @@ ion-content {
 .brand-logo {
   width: 72px;
   height: 72px;
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -40,14 +40,14 @@ ion-content {
 .brand-name {
   font-size: 22px;
   font-weight: 700;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .brand-sub {
   font-size: 11px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin: 0;
@@ -55,8 +55,8 @@ ion-content {
 
 .mode-tabs {
   display: flex;
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 3px;
   margin-bottom: 24px;
@@ -70,13 +70,13 @@ ion-content {
   border-radius: 9px;
   font-size: 14px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   cursor: pointer;
   transition: all 0.15s;
 
   &.active {
-    background: #c8b97a;
-    color: #0f0e0c;
+    background: var(--ion-color-primary);
+    color: var(--ion-background-color);
   }
 }
 
@@ -95,7 +95,7 @@ ion-content {
 .field-label {
   font-size: 11px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -103,33 +103,33 @@ ion-content {
 .field-input {
   width: 100%;
   box-sizing: border-box;
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 10px;
   padding: 13px 14px;
   font-size: 15px;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   outline: none;
   transition: border-color 0.15s;
 
   &::placeholder {
-    color: #6b6248;
+    color: var(--ion-color-medium);
   }
 
   &:focus {
-    border-color: #c8b97a;
+    border-color: var(--ion-color-primary);
   }
 }
 
 .field-error {
   font-size: 11px;
-  color: #f09595;
+  color: var(--ion-color-danger);
 }
 
 .submit-btn {
   width: 100%;
-  background: #c8b97a;
-  color: #0f0e0c;
+  background: var(--ion-color-primary);
+  color: var(--ion-background-color);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -149,6 +149,6 @@ ion-content {
   }
 
   ion-spinner {
-    --color: #0f0e0c;
+    --color: var(--ion-background-color);
   }
 }

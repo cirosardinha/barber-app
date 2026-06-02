@@ -1,20 +1,20 @@
 ion-content {
-  --background: #0f0e0c;
+  --background: var(--ion-background-color);
 }
 
 ion-header ion-toolbar {
-  --background: #0f0e0c;
-  --border-color: #252218;
+  --background: var(--ion-background-color);
+  --border-color: var(--ion-color-light);
 }
 
 ion-title {
-  color: #ede8d8;
+  color: var(--ion-text-color);
   font-weight: 600;
   font-size: 17px;
 }
 
 ion-button {
-  --color: #6b6248;
+  --color: var(--ion-color-medium);
 }
 
 .content-wrapper {
@@ -24,14 +24,14 @@ ion-button {
 .section-label {
   font-size: 10px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 0 0 12px;
 }
 
 .section-date {
-  color: #8a8070;
+  color: var(--ion-color-secondary);
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
@@ -58,37 +58,37 @@ ion-button {
   align-items: center;
   padding: 10px 16px;
   border-radius: 12px;
-  border: 0.5px solid #252218;
-  background: #181610;
+  border: 0.5px solid var(--ion-color-light);
+  background: var(--ion-color-step-50);
   cursor: pointer;
   transition: all 0.15s;
   gap: 4px;
 
   &.active {
-    background: #c8b97a;
-    border-color: #c8b97a;
+    background: var(--ion-color-primary);
+    border-color: var(--ion-color-primary);
 
     .weekday {
-      color: #2e2a1e;
+      color: var(--ion-color-step-200);
     }
 
     .day-number {
-      color: #0f0e0c;
+      color: var(--ion-background-color);
     }
   }
 
   &.blocked {
     cursor: default;
     opacity: 0.45;
-    border-color: #3a1818;
+    border-color: var(--ion-color-danger);
 
     .weekday {
-      color: #7a3030;
+      color: var(--ion-color-danger);
       text-decoration: line-through;
     }
 
     .day-number {
-      color: #7a3030;
+      color: var(--ion-color-danger);
       text-decoration: line-through;
     }
   }
@@ -96,7 +96,7 @@ ion-button {
 
 .closed-icon {
   font-size: 9px;
-  color: #c0392b;
+  color: var(--ion-color-danger);
   font-weight: 700;
   line-height: 1;
 }
@@ -104,7 +104,7 @@ ion-button {
 .weekday {
   font-size: 10px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -112,7 +112,7 @@ ion-button {
 .day-number {
   font-size: 18px;
   font-weight: 700;
-  color: #8a8070;
+  color: var(--ion-color-secondary);
 }
 
 .slots-grid {
@@ -127,26 +127,26 @@ ion-button {
   text-align: center;
   font-size: 13px;
   font-weight: 500;
-  border: 0.5px solid #252218;
+  border: 0.5px solid var(--ion-color-light);
   transition: all 0.15s;
 
   &.available {
-    background: #181610;
-    color: #8a8070;
+    background: var(--ion-color-step-50);
+    color: var(--ion-color-secondary);
     cursor: pointer;
   }
 
   &.selected {
-    background: #c8b97a;
-    color: #0f0e0c;
-    border-color: #c8b97a;
+    background: var(--ion-color-primary);
+    color: var(--ion-background-color);
+    border-color: var(--ion-color-primary);
     font-weight: 700;
     cursor: pointer;
   }
 
   &.taken {
-    background: #181610;
-    color: #2e2a1e;
+    background: var(--ion-color-step-50);
+    color: var(--ion-color-step-200);
     cursor: default;
     text-decoration: line-through;
   }
@@ -158,13 +158,13 @@ ion-button {
   padding: 48px 0;
 
   ion-spinner {
-    --color: #8a8070;
+    --color: var(--ion-color-secondary);
   }
 }
 
 .empty-message {
   text-align: center;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   font-size: 14px;
   padding: 48px 0;
 }
@@ -175,14 +175,14 @@ ion-button {
   left: 0;
   right: 0;
   padding: 12px 16px calc(16px + var(--ion-safe-area-bottom));
-  background: #0f0e0c;
-  border-top: 0.5px solid #252218;
+  background: var(--ion-background-color);
+  border-top: 0.5px solid var(--ion-color-light);
 }
 
 .cta-btn {
   width: 100%;
-  background: #c8b97a;
-  color: #0f0e0c;
+  background: var(--ion-color-primary);
+  color: var(--ion-background-color);
   border: none;
   border-radius: 14px;
   padding: 15px;
@@ -200,32 +200,32 @@ ion-button {
   }
 
   ion-spinner {
-    --color: #0f0e0c;
+    --color: var(--ion-background-color);
   }
 }
 
 .modal-wrapper {
   padding: 24px 20px 40px;
-  background: #0f0e0c;
+  background: var(--ion-background-color);
   min-height: 100%;
 }
 
 .modal-title {
   font-size: 18px;
   font-weight: 700;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   margin: 0 0 4px;
 }
 
 .modal-sub {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   margin: 0 0 20px;
 }
 
 .modal-card {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 4px 16px;
   margin-bottom: 20px;
@@ -237,25 +237,25 @@ ion-button {
   padding: 12px 0;
 
   &+& {
-    border-top: 0.5px solid #1c1a12;
+    border-top: 0.5px solid var(--ion-color-step-100);
   }
 }
 
 .modal-key {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .modal-value {
   font-size: 14px;
   font-weight: 600;
-  color: #ede8d8;
+  color: var(--ion-text-color);
 }
 
 .modal-confirm-btn {
   width: 100%;
-  background: #c8b97a;
-  color: #0f0e0c;
+  background: var(--ion-color-primary);
+  color: var(--ion-background-color);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -274,15 +274,15 @@ ion-button {
   }
 
   ion-spinner {
-    --color: #0f0e0c;
+    --color: var(--ion-background-color);
   }
 }
 
 .modal-back-btn {
   width: 100%;
   background: transparent;
-  color: #8a8070;
-  border: 0.5px solid #252218;
+  color: var(--ion-color-secondary);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;

@@ -1,14 +1,14 @@
 ion-content {
-  --background: #0f0e0c;
+  --background: var(--ion-background-color);
 }
 
 ion-header ion-toolbar {
-  --background: #0f0e0c;
-  --border-color: #252218;
+  --background: var(--ion-background-color);
+  --border-color: var(--ion-color-light);
 }
 
 ion-title {
-  color: #ede8d8;
+  color: var(--ion-text-color);
   font-weight: 600;
   font-size: 17px;
   display: flex;
@@ -17,7 +17,7 @@ ion-title {
 }
 
 ion-button {
-  --color: #6b6248;
+  --color: var(--ion-color-medium);
 }
 
 .content-wrapper {
@@ -32,8 +32,8 @@ ion-button {
 }
 
 .stat-card {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 14px;
   padding: 16px;
   display: flex;
@@ -44,14 +44,14 @@ ion-button {
 .stat-number {
   font-size: 30px;
   font-weight: 700;
-  color: #c8b97a;
+  color: var(--ion-color-primary);
   line-height: 1;
 }
 
 .stat-label {
   font-size: 10px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -71,20 +71,20 @@ ion-button {
 .filter-btn {
   flex-shrink: 0;
   padding: 8px 14px;
-  border: 0.5px solid #252218;
+  border: 0.5px solid var(--ion-color-light);
   background: transparent;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
 
   &.active {
-    background: #c8b97a;
-    color: #0f0e0c;
-    border-color: #c8b97a;
+    background: var(--ion-color-primary);
+    color: var(--ion-background-color);
+    border-color: var(--ion-color-primary);
   }
 }
 
@@ -94,20 +94,20 @@ ion-button {
   padding: 48px 0;
 
   ion-spinner {
-    --color: #8a8070;
+    --color: var(--ion-color-secondary);
   }
 }
 
 .empty-message {
   text-align: center;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   font-size: 14px;
   padding: 48px 0;
 }
 
 .appointment-card {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 14px;
   padding: 14px;
   margin-bottom: 10px;
@@ -135,12 +135,12 @@ ion-button {
 .card-date {
   font-size: 14px;
   font-weight: 600;
-  color: #ede8d8;
+  color: var(--ion-text-color);
 }
 
 .card-time {
   font-size: 12px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .badge {
@@ -152,21 +152,21 @@ ion-button {
   letter-spacing: 0.04em;
 
   &.scheduled {
-    background: #141f12;
-    color: #7ab87a;
-    border: 0.5px solid #2a5228;
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+    border: 0.5px solid var(--ion-color-success);
   }
 
   &.completed {
-    background: #14120a;
-    color: #c8b97a;
-    border: 0.5px solid #52481a;
+    background: var(--ion-color-warning);
+    color: var(--ion-color-warning-contrast);
+    border: 0.5px solid var(--ion-color-warning);
   }
 
   &.canceled {
-    background: #1f1010;
-    color: #f09595;
-    border: 0.5px solid #5a2020;
+    background: var(--ion-color-danger);
+    color: var(--ion-color-danger-contrast);
+    border: 0.5px solid var(--ion-color-danger);
   }
 }
 
@@ -175,25 +175,25 @@ ion-button {
   justify-content: space-between;
   align-items: center;
   padding-top: 10px;
-  border-top: 0.5px solid #1c1a12;
+  border-top: 0.5px solid var(--ion-color-step-100);
 }
 
 .client-name {
   font-size: 13px;
   font-weight: 500;
-  color: #8a8070;
+  color: var(--ion-color-secondary);
 }
 
 .client-phone {
   font-size: 12px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .card-actions {
   display: flex;
   gap: 8px;
   padding-top: 10px;
-  border-top: 0.5px solid #1c1a12;
+  border-top: 0.5px solid var(--ion-color-step-100);
 }
 
 .action-btn {
@@ -206,15 +206,15 @@ ion-button {
   border: none;
 
   &.complete {
-    background: #141f12;
-    color: #7ab87a;
-    border: 0.5px solid #2a5228;
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+    border: 0.5px solid var(--ion-color-success);
   }
 
   &.cancel {
-    background: #1f1010;
-    color: #f09595;
-    border: 0.5px solid #5a2020;
+    background: var(--ion-color-danger);
+    color: var(--ion-color-danger-contrast);
+    border: 0.5px solid var(--ion-color-danger);
   }
 }
 
@@ -230,12 +230,12 @@ ion-button {
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border: 0.5px solid #3a2a1a;
-  background: #1a1208;
+  border: 0.5px solid var(--ion-color-step-300);
+  background: var(--ion-color-step-50);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #c8b97a;
+  color: var(--ion-color-primary);
   cursor: pointer;
   transition: all 0.15s;
 
@@ -246,26 +246,26 @@ ion-button {
 
 .disabled-count {
   font-size: 11px;
-  color: #c0392b;
+  color: var(--ion-color-danger);
   font-weight: 600;
 }
 
 .modal-wrapper {
   padding: 24px 20px 40px;
-  background: #0f0e0c;
+  background: var(--ion-background-color);
   min-height: 100%;
 }
 
 .modal-title {
   font-size: 18px;
   font-weight: 700;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   margin: 0 0 4px;
 }
 
 .modal-sub {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   margin: 0 0 20px;
 }
 
@@ -277,7 +277,7 @@ ion-button {
   display: block;
   font-size: 11px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 8px;
@@ -285,18 +285,18 @@ ion-button {
 
 .field-input {
   width: 100%;
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 15px;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   box-sizing: border-box;
   color-scheme: dark;
 
   &:focus {
     outline: none;
-    border-color: #c8b97a;
+    border-color: var(--ion-color-primary);
   }
 }
 
@@ -311,21 +311,21 @@ ion-button {
   border-radius: 8px;
 
   &.blocked {
-    background: #1f1010;
-    color: #f09595;
-    border: 0.5px solid #5a2020;
+    background: var(--ion-color-danger);
+    color: var(--ion-color-danger-contrast);
+    border: 0.5px solid var(--ion-color-danger);
   }
 
   &.open {
-    background: #141f12;
-    color: #7ab87a;
-    border: 0.5px solid #2a5228;
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+    border: 0.5px solid var(--ion-color-success);
   }
 }
 
 .disabled-list {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 4px 16px;
   margin-bottom: 20px;
@@ -334,7 +334,7 @@ ion-button {
 .disabled-list-label {
   font-size: 10px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 12px 0 8px;
@@ -345,15 +345,15 @@ ion-button {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-top: 0.5px solid #1c1a12;
+  border-top: 0.5px solid var(--ion-color-step-100);
   font-size: 13px;
-  color: #8a8070;
+  color: var(--ion-color-secondary);
 }
 
 .unblock-btn {
   background: transparent;
-  border: 0.5px solid #2a5228;
-  color: #7ab87a;
+  border: 0.5px solid var(--ion-color-success);
+  color: var(--ion-color-success);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 11px;
@@ -363,8 +363,8 @@ ion-button {
 
 .modal-confirm-btn {
   width: 100%;
-  background: #c8b97a;
-  color: #0f0e0c;
+  background: var(--ion-color-primary);
+  color: var(--ion-background-color);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -383,15 +383,15 @@ ion-button {
   }
 
   ion-spinner {
-    --color: #0f0e0c;
+    --color: var(--ion-background-color);
   }
 }
 
 .modal-back-btn {
   width: 100%;
   background: transparent;
-  color: #8a8070;
-  border: 0.5px solid #252218;
+  color: var(--ion-color-secondary);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;

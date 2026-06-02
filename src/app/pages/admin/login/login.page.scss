@@ -1,5 +1,5 @@
 ion-content {
-  --background: #0f0e0c;
+  --background: var(--ion-background-color);
 }
 
 .login-wrapper {
@@ -12,7 +12,7 @@ ion-content {
 .back-btn {
   background: transparent;
   border: none;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   font-size: 13px;
   cursor: pointer;
   padding: 0;
@@ -27,7 +27,7 @@ ion-content {
 .brand-eyebrow {
   font-size: 11px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 6px;
@@ -36,7 +36,7 @@ ion-content {
 .brand-title {
   font-size: 30px;
   font-weight: 700;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   margin: 0;
   letter-spacing: -0.02em;
 }
@@ -56,7 +56,7 @@ ion-content {
 .field-label {
   font-size: 11px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -64,33 +64,33 @@ ion-content {
 .field-input {
   width: 100%;
   box-sizing: border-box;
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 10px;
   padding: 13px 14px;
   font-size: 15px;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   outline: none;
   transition: border-color 0.15s;
 
   &::placeholder {
-    color: #6b6248;
+    color: var(--ion-color-medium);
   }
 
   &:focus {
-    border-color: #c8b97a;
+    border-color: var(--ion-color-primary);
   }
 }
 
 .field-error {
   font-size: 11px;
-  color: #f09595;
+  color: var(--ion-color-danger);
 }
 
 .submit-btn {
   width: 100%;
-  background: #c8b97a;
-  color: #0f0e0c;
+  background: var(--ion-color-primary);
+  color: var(--ion-background-color);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -109,6 +109,6 @@ ion-content {
   }
 
   ion-spinner {
-    --color: #0f0e0c;
+    --color: var(--ion-background-color);
   }
 }

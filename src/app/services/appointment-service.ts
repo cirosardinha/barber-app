@@ -74,7 +74,6 @@ export class AppointmentService {
       .select('date');
     if (error) throw error;
 
-    console.log(data);
     return (data as any[]).map((row) => row.date);
   }
 

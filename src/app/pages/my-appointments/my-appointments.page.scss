@@ -1,20 +1,20 @@
 ion-content {
-  --background: #0f0e0c;
+  --background: var(--ion-background-color);
 }
 
 ion-header ion-toolbar {
-  --background: #0f0e0c;
-  --border-color: #252218;
+  --background: var(--ion-background-color);
+  --border-color: var(--ion-color-light);
 }
 
 ion-title {
-  color: #ede8d8;
+  color: var(--ion-text-color);
   font-weight: 600;
   font-size: 17px;
 }
 
 ion-button {
-  --color: #6b6248;
+  --color: var(--ion-color-medium);
 }
 
 .content-wrapper {
@@ -24,7 +24,7 @@ ion-button {
 .section-label {
   font-size: 10px;
   font-weight: 600;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 0 0 10px;
@@ -40,7 +40,7 @@ ion-button {
   padding: 64px 0;
 
   ion-spinner {
-    --color: #8a8070;
+    --color: var(--ion-color-secondary);
   }
 }
 
@@ -52,18 +52,18 @@ ion-button {
 .empty-title {
   font-size: 15px;
   font-weight: 600;
-  color: #8a8070;
+  color: var(--ion-color-secondary);
   margin-bottom: 6px;
 }
 
 .empty-sub {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .appointment-card {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 14px;
   padding: 14px;
   margin-bottom: 10px;
@@ -85,12 +85,12 @@ ion-button {
 .card-date {
   font-size: 14px;
   font-weight: 600;
-  color: #ede8d8;
+  color: var(--ion-text-color);
 }
 
 .card-time {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .card-actions {
@@ -109,57 +109,56 @@ ion-button {
   letter-spacing: 0.04em;
 
   &.scheduled {
-    background: #141f12;
-    color: #7ab87a;
-    border: 0.5px solid #2a5228;
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+    border: 0.5px solid var(--ion-color-success);
   }
 
   &.canceled {
-    background: #1f1010;
-    color: #f09595;
-    border: 0.5px solid #5a2020;
+    background: var(--ion-color-danger);
+    color: var(--ion-color-danger-contrast);
+    border: 0.5px solid var(--ion-color-danger);
   }
 
   &.completed {
-    background: #14120a;
-    color: #c8b97a;
-    border: 0.5px solid #52481a;
+    background: var(--ion-color-warning);
+    color: var(--ion-color-warning-contrast);
+    border: 0.5px solid var(--ion-color-warning);
   }
 }
 
 .cancel-btn {
   font-size: 11px;
-  color: #f09595;
-  border: 0.5px solid #5a2020;
+  color: var(--ion-color-danger);
+  border: 0.5px solid var(--ion-color-danger);
   background: transparent;
   border-radius: 7px;
   padding: 4px 9px;
   cursor: pointer;
 }
 
-// Modal
 .modal-wrapper {
   padding: 24px 20px 40px;
-  background: #0f0e0c;
+  background: var(--ion-background-color);
   min-height: 100%;
 }
 
 .modal-title {
   font-size: 18px;
   font-weight: 700;
-  color: #ede8d8;
+  color: var(--ion-text-color);
   margin: 0 0 4px;
 }
 
 .modal-sub {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
   margin: 0 0 20px;
 }
 
 .modal-card {
-  background: #181610;
-  border: 0.5px solid #252218;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 4px 16px;
   margin-bottom: 20px;
@@ -171,25 +170,25 @@ ion-button {
   padding: 12px 0;
 
   &+& {
-    border-top: 0.5px solid #1c1a12;
+    border-top: 0.5px solid var(--ion-color-step-100);
   }
 }
 
 .modal-key {
   font-size: 13px;
-  color: #6b6248;
+  color: var(--ion-color-medium);
 }
 
 .modal-value {
   font-size: 14px;
   font-weight: 600;
-  color: #ede8d8;
+  color: var(--ion-text-color);
 }
 
 .modal-cancel-btn {
   width: 100%;
-  background: #5a1a1a;
-  color: #f5e0e0;
+  background: var(--ion-color-danger);
+  color: var(--ion-color-danger-contrast);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -206,15 +205,15 @@ ion-button {
   }
 
   ion-spinner {
-    --color: #f5e0e0;
+    --color: var(--ion-color-danger-contrast);
   }
 }
 
 .modal-back-btn {
   width: 100%;
   background: transparent;
-  color: #8a8070;
-  border: 0.5px solid #252218;
+  color: var(--ion-color-secondary);
+  border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;
