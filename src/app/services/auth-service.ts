@@ -58,8 +58,6 @@ export class AuthService {
 
     this.session.set(data.session);
     await this._loadRole(data.session?.user);
-
-    this.router.navigate(['/tabs'], { replaceUrl: true });
   }
 
   async signUp(
@@ -83,7 +81,8 @@ export class AuthService {
 
   async logout(): Promise<void> {
     await this.supabase.auth.signOut();
-    this.router.navigate(['/auth'], { replaceUrl: true });
+    this.session.set(null);
+    this._role.set('USER');
   }
 
   private async _loadRole(user: User | undefined | null): Promise<void> {
