@@ -8,12 +8,11 @@ export const authGuard: CanActivateFn = async () => {
 
   await authService.init();
 
-  if (authService.isLoggedIn()) {
-    return true;
+  if (!authService.isLoggedIn()) {
+    return router.createUrlTree(['/auth']);
   }
 
-  router.navigate(['/auth']);
-  return false;
+  return true;
 };
 
 export const adminGuard: CanActivateFn = async () => {
@@ -22,10 +21,9 @@ export const adminGuard: CanActivateFn = async () => {
 
   await authService.init();
 
-  if (authService.isLoggedIn() && authService.isAdmin()) {
-    return true;
+  if (!authService.isLoggedIn() || !authService.isAdmin()) {
+    return router.createUrlTree(['/auth']);
   }
 
-  router.navigate(['/auth']);
-  return false;
+  return true;
 };
