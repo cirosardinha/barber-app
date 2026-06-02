@@ -5,10 +5,8 @@ export interface Appointment {
   time: string;
   status: 'SCHEDULED' | 'CANCELED' | 'COMPLETED';
   created_at: string;
-  profiles?: {
-    full_name: string | null;
-    phone_number: string | null;
-  };
+  full_name: string | null;
+  phone_number: string | null;
 }
 
 export interface TimeSlot {
