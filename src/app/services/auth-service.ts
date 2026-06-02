@@ -80,7 +80,10 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
+    this.initPromise = null;
+    this.isInitialized = false;
     await this.supabase.auth.signOut();
+    await new Promise((resolve) => setTimeout(resolve, 100));
     this.session.set(null);
     this._role.set('USER');
   }
