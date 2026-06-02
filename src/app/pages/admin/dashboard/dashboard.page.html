@@ -36,6 +36,15 @@
       <button class="filter-btn" [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">Todos</button>
     </div>
 
+    <div class="manage-row">
+      <button class="manage-btn" (click)="openDisablePicker()">
+        <span class="manage-icon">🚫</span> Gerenciar dias
+      </button>
+      @if (disabledDays().length > 0) {
+      <span class="disabled-count">{{ disabledDays().length }} dia(s) bloqueado(s)</span>
+      }
+    </div>
+
     @if (isLoading()) {
     <div class="loading-wrapper"><ion-spinner name="crescent" /></div>
     }
@@ -71,3 +80,48 @@
 
   </div>
 </ion-content>
+
+<ion-modal [isOpen]="showDisablePicker()" (didDismiss)="closeDisablePicker()" [breakpoints]="[0,1]"
+  [initialBreakpoint]="1" handle="true">
+  <ng-template>
+    <div class="modal-wrapper">
+      <h2 class="modal-title">Gerenciar dias</h2>
+      <p class="modal-sub">Selecione uma data para bloquear ou desbloquear agendamentos.</p>
+
+      <div class="field">
+        <label class="field-label">Data</label>
+        <input class="field-input" type="date" [value]="disableDate()"
+          (input)="disableDate.set($any($event.target).value)" />
+      </div>
+
+      @if (disableDate()) {
+      <div class="day-status-row">
+        @if (isDisabled(disableDate())) {
+        <span class="day-status blocked">🚫 Dia bloqueado</span>
+        } @else {
+        <span class="day-status open">✓ Dia aberto</span>
+        }
+      </div>
+      }
+
+      @if (disabledDays().length > 0) {
+      <div class="disabled-list">
+        <p class="disabled-list-label">Dias bloqueados</p>
+        @for (d of disabledDays(); track d) {
+        <div class="disabled-list-item">
+          <span>{{ formatDate(d) }}</span>
+          <button class="unblock-btn" (click)="toggleDay(d)">Desbloquear</button>
+        </div>
+        }
+      </div>
+      }
+
+      <button class="modal-confirm-btn" [disabled]="!disableDate() || isTogglingDay()"
+        (click)="toggleDay(disableDate())">
+        @if (isTogglingDay()) { <ion-spinner name="crescent" /> }
+        @else { {{ isDisabled(disableDate()) ? 'Desbloquear dia' : 'Bloquear dia' }} }
+      </button>
+      <button class="modal-back-btn" [disabled]="isTogglingDay()" (click)="closeDisablePicker()">Fechar</button>
+    </div>
+  </ng-template>
+</ion-modal>

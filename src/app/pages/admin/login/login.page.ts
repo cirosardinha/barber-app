@@ -52,8 +52,8 @@ export class LoginPage {
         this.router.navigate(['/admin/dashboard'], { replaceUrl: true });
       } else {
         this.showToast('Acesso negado. Você não é um administrador.');
-        this.router.navigate(['/admin/login'], { replaceUrl: true });
         await this.authService.logout();
+        await this.router.navigate(['/admin/login'], { replaceUrl: true });
       }
     } catch (err: any) {
       const msg = err?.message ?? '';

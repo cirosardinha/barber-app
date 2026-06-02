@@ -76,6 +76,29 @@ ion-button {
       color: #0f0e0c;
     }
   }
+
+  &.blocked {
+    cursor: default;
+    opacity: 0.45;
+    border-color: #3a1818;
+
+    .weekday {
+      color: #7a3030;
+      text-decoration: line-through;
+    }
+
+    .day-number {
+      color: #7a3030;
+      text-decoration: line-through;
+    }
+  }
+}
+
+.closed-icon {
+  font-size: 9px;
+  color: #c0392b;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .weekday {

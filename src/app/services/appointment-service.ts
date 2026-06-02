@@ -67,4 +67,29 @@ export class AppointmentService {
       .eq('id', id);
     if (error) throw error;
   }
+
+  async getDisabledDays(): Promise<string[]> {
+    const { data, error } = await this.supabase
+      .from('disabled_days')
+      .select('date');
+    if (error) throw error;
+
+    console.log(data);
+    return (data as any[]).map((row) => row.date);
+  }
+
+  async disableDay(date: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('disabled_days')
+      .insert({ date });
+    if (error) throw error;
+  }
+
+  async enableDay(date: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('disabled_days')
+      .delete()
+      .eq('date', date);
+    if (error) throw error;
+  }
 }

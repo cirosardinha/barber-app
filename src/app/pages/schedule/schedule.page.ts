@@ -24,6 +24,7 @@ interface DayOption {
   value: string;
   weekday: string;
   label: string;
+  isSunday: boolean;
 }
 
 @Component({
@@ -53,6 +54,7 @@ export class SchedulePage implements OnInit {
 
   readonly days = signal<DayOption[]>([]);
   readonly selectedDate = signal('');
+  readonly disabledDays = signal<Set<string>>(new Set());
   readonly slots = signal<TimeSlot[]>([]);
   readonly selectedSlot = signal('');
   readonly isLoading = signal(false);
@@ -102,6 +104,14 @@ export class SchedulePage implements OnInit {
 
   ngOnInit(): void {
     this._buildDays();
+    this._loadDisabledDays();
+  }
+
+  private async _loadDisabledDays(): Promise<void> {
+    try {
+      const dates = await this.appointmentService.getDisabledDays();
+      this.disabledDays.set(new Set(dates));
+    } catch {}
   }
 
   private _buildDays(): void {
@@ -113,19 +123,26 @@ export class SchedulePage implements OnInit {
     while (added < 7) {
       const d = new Date(today);
       d.setDate(today.getDate() + offset++);
-      if (d.getDay() === 0) continue;
       days.push({
         value: this._formatDate(d),
         weekday: weekdays[d.getDay()],
         label: String(d.getDate()),
+        isSunday: d.getDay() === 0,
       });
       added++;
     }
     this.days.set(days);
-    this.selectDate(days[0].value);
+    const firstAvailable = days.find((d) => !d.isSunday);
+    if (firstAvailable) this.selectDate(firstAvailable.value);
+  }
+
+  isDayBlocked(day: DayOption): boolean {
+    return day.isSunday || this.disabledDays().has(day.value);
   }
 
   async selectDate(date: string): Promise<void> {
+    const day = this.days().find((d) => d.value === date);
+    if (day && this.isDayBlocked(day)) return;
     this.selectedDate.set(date);
     this.selectedSlot.set('');
     this.isLoading.set(true);
