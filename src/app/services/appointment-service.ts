@@ -53,10 +53,9 @@ export class AppointmentService {
 
   async getAll(): Promise<Appointment[]> {
     const { data, error } = await this.supabase
-      .from('appointments')
-      .select('*, profiles(full_name, phone_number)')
-      .order('date', { ascending: true })
-      .order('time', { ascending: true });
+      .from('appointments_with_profiles')
+      .select('*');
+
     if (error) throw error;
     return data as Appointment[];
   }
