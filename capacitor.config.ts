@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'barber-app-mobile',
-  webDir: 'www'
+  appId: 'com.ciro.barberapp',
+  appName: 'Barber App',
+  webDir: 'www',
 };
 
 export default config;
