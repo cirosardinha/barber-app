@@ -19,6 +19,7 @@ import { AuthService } from 'src/app/services/auth-service';
 import { Appointment } from 'src/app/models/appointment';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
 import { Router } from '@angular/router';
+import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
 @Component({
   selector: 'app-my-appointments',
@@ -37,6 +38,7 @@ import { Router } from '@angular/router';
     IonIcon,
     IonSpinner,
     IonModal,
+    ThemeBtnComponent,
   ],
 })
 export class MyAppointmentsPage implements OnInit {

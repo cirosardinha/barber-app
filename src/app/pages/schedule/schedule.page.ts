@@ -6,12 +6,12 @@ import {
   IonHeader,
   IonTitle,
   IonToolbar,
-  IonButtons,
   IonButton,
   IonIcon,
   IonSpinner,
   IonModal,
   ToastController,
+  IonButtons,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { logOutOutline } from 'ionicons/icons';
@@ -19,6 +19,7 @@ import { AppointmentService } from 'src/app/services/appointment-service';
 import { AuthService } from 'src/app/services/auth-service';
 import { TimeSlot } from 'src/app/models/appointment';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
+import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
 interface DayOption {
   value: string;
@@ -39,11 +40,12 @@ interface DayOption {
     IonHeader,
     IonTitle,
     IonToolbar,
-    IonButtons,
     IonButton,
     IonIcon,
     IonSpinner,
     IonModal,
+    IonButtons,
+    ThemeBtnComponent,
   ],
 })
 export class SchedulePage implements OnInit {
@@ -118,18 +120,20 @@ export class SchedulePage implements OnInit {
     const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const days: DayOption[] = [];
     const today = new Date();
-    let added = 0,
-      offset = 0;
-    while (added < 7) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + offset++);
+
+    const dayOfWeek = today.getDay();
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() - dayOfWeek);
+
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(sunday);
+      day.setDate(sunday.getDate() + i);
       days.push({
-        value: this._formatDate(d),
-        weekday: weekdays[d.getDay()],
-        label: String(d.getDate()),
-        isSunday: d.getDay() === 0,
+        value: this._formatDate(day),
+        weekday: weekdays[day.getDay()],
+        label: String(day.getDate()),
+        isSunday: day.getDay() === 0,
       });
-      added++;
     }
     this.days.set(days);
     const firstAvailable = days.find((d) => !d.isSunday);

@@ -7,13 +7,14 @@ import {
   ToastController,
 } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/services/auth-service';
+import { ThemeBtnComponent } from '../../../shared/components/theme-btn/theme-btn.component';
 
 @Component({
   selector: 'app-admin-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonSpinner],
+  imports: [CommonModule, IonContent, IonSpinner, ThemeBtnComponent],
 })
 export class LoginPage {
   private readonly authService = inject(AuthService);

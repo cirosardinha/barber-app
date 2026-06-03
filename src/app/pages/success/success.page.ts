@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonButton } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
 
 @Component({
@@ -25,6 +25,10 @@ export class SuccessPage implements OnInit {
     this.date = state?.['date'] ?? '';
     this.time = state?.['time'] ?? '';
     this.formattedDate = this._formatDate(this.date);
+
+    if (!this.date || !this.time) {
+      this.router.navigate(['/tabs/schedule'], { replaceUrl: true });
+    }
   }
 
   goHome(): void {

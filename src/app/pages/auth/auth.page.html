@@ -1,11 +1,14 @@
 <ion-content [fullscreen]="true">
+
+  <app-theme-btn />
+
   <div class="auth-wrapper">
 
-    <div class="brand">
-      <div class="brand-logo" (click)="onLogoClick()">
+    <div class="brand" (click)="onLogoClick()">
+      <div class="brand-logo">
         <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(3 2) scale(0.073)">
-            <path fill="#c8b97a" d="M403.281,395.304c-14.939,0-27.202-11.646-28.208-26.334c17.17-8.072,29.09-25.528,29.09-45.723
+            <path class="svg-primary" d="M403.281,395.304c-14.939,0-27.202-11.646-28.208-26.334c17.17-8.072,29.09-25.528,29.09-45.723
       c0-27.846-22.654-50.5-50.5-50.5c-13.046,0-24.952,4.973-33.923,13.123l-39.112-67.744c2.118-2.559,5.479-6.4,9.525-10.243
       c8.431-8.006,16.269-12.592,22.069-12.914c1.914-0.106,3.663-1.122,4.704-2.731c11.09-17.139,85.237-174.026,88.388-180.697
       c1.364-2.887,0.229-6.336-2.584-7.848c-2.813-1.51-6.314-0.556-7.972,2.174L273.39,206.015L152.021,5.866
@@ -15,7 +18,7 @@
       c0-10.224-3.063-19.741-8.306-27.701l38.081-65.958l38.081,65.958c-5.243,7.96-8.306,17.478-8.306,27.701
       c0,27.846,22.654,50.5,50.5,50.5c3.337,0,6.597-0.334,9.755-0.954c2.809,19.487,19.611,34.511,39.863,34.511c3.313,0,6-2.687,6-6
       S406.595,395.304,403.281,395.304z" />
-            <path fill="#8a8070" d="M107.779,13.978c3.313,0,6-2.687,6-6s-2.687-6-6-6H28.227C12.662,1.978,0,14.64,0,30.204V349.56
+            <path class="svg-secondary" d="M107.779,13.978c3.313,0,6-2.687,6-6s-2.687-6-6-6H28.227C12.662,1.978,0,14.64,0,30.204V349.56
       c0,15.563,12.662,28.226,28.227,28.226h79.553c3.313,0,6-2.687,6-6s-2.687-6-6-6H34.227v-11.279h73.553c3.313,0,6-2.687,6-6
       s-2.687-6-6-6H34.227v-12.403h73.553c3.313,0,6-2.687,6-6s-2.687-6-6-6H34.227v-12.404h73.553c3.313,0,6-2.687,6-6s-2.687-6-6-6
       H34.227v-12.403h73.553c3.313,0,6-2.687,6-6s-2.687-6-6-6H34.227v-12.403h73.553c3.313,0,6-2.687,6-6s-2.687-6-6-6H34.227v-12.404
@@ -31,11 +34,6 @@
       <div class="brand-sub">{{ isRegister() ? 'Crie sua conta' : 'Faça login para continuar' }}</div>
     </div>
 
-    <div class="mode-tabs">
-      <button class="mode-tab" [class.active]="mode() === 'login'" (click)="setMode('login')">Entrar</button>
-      <button class="mode-tab" [class.active]="mode() === 'register'" (click)="setMode('register')">Cadastrar</button>
-    </div>
-
     <div class="form-section">
 
       @if (isRegister()) {
@@ -45,18 +43,17 @@
           (input)="fullName.set($any($event.target).value)" (blur)="touch('fullName')" />
         @if (fullNameError()) { <span class="field-error">{{ fullNameError() }}</span> }
       </div>
-
       <div class="field">
         <label class="field-label">Telefone</label>
-        <input class="field-input" type="tel" placeholder="(21) 99999-1234" [value]="phoneNumber()"
+        <input class="field-input" type="tel" placeholder="Digite seu telefone" [value]="phoneNumber()"
           (input)="phoneNumber.set($any($event.target).value)" (blur)="touch('phoneNumber')" />
         @if (phoneNumberError()) { <span class="field-error">{{ phoneNumberError() }}</span> }
       </div>
       }
 
       <div class="field">
-        <label class="field-label">E-mail</label>
-        <input class="field-input" type="email" placeholder="Digite seu e-mail" [value]="email()"
+        <label class="field-label">Email</label>
+        <input class="field-input" type="email" placeholder="Digite seu email" [value]="email()"
           (input)="email.set($any($event.target).value)" (blur)="touch('email')" />
         @if (emailError()) { <span class="field-error">{{ emailError() }}</span> }
       </div>
@@ -64,7 +61,7 @@
       <div class="field">
         <label class="field-label">Senha</label>
         <input class="field-input" type="password"
-          [placeholder]="isRegister() ? 'Mínimo 6 caracteres' : 'Digite sua senha'" [value]="password()"
+          [placeholder]="isRegister() ? 'Crie uma senha (mín. 6 caracteres)' : 'Digite sua senha'" [value]="password()"
           (input)="password.set($any($event.target).value)" (blur)="touch('password')" />
         @if (passwordError()) { <span class="field-error">{{ passwordError() }}</span> }
       </div>
@@ -73,6 +70,14 @@
         @if (isLoading()) { <ion-spinner name="crescent" /> }
         @else { {{ isRegister() ? 'Criar conta' : 'Entrar' }} }
       </button>
+
+      <div class="auth-toggle-footer">
+        @if (isRegister()) {
+        <span>Já tem uma conta? <a (click)="setMode('login')">Faça login</a></span>
+        } @else {
+        <span>Ainda não tem uma conta? <a (click)="setMode('register')">Cadastre-se</a></span>
+        }
+      </div>
 
     </div>
   </div>

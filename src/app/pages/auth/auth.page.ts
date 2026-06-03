@@ -7,6 +7,10 @@ import {
   ToastController,
 } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/services/auth-service';
+import { ThemeService } from 'src/app/shared/services/theme-service';
+import { moonOutline, sunnyOutline } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
 type Mode = 'login' | 'register';
 
@@ -15,12 +19,13 @@ type Mode = 'login' | 'register';
   templateUrl: './auth.page.html',
   styleUrls: ['./auth.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonSpinner],
+  imports: [CommonModule, IonContent, IonSpinner, ThemeBtnComponent],
 })
 export class AuthPage {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastController);
+  readonly themeService = inject(ThemeService);
 
   readonly mode = signal<Mode>('login');
   readonly isRegister = computed(() => this.mode() === 'register');
@@ -40,6 +45,10 @@ export class AuthPage {
 
   private _logoClicks = 0;
   private _logoTimer: any = null;
+
+  constructor() {
+    addIcons({ sunnyOutline, moonOutline });
+  }
 
   readonly fullNameError = computed(() => {
     if (!this.isRegister() || !this.touched().fullName) return '';
@@ -121,10 +130,7 @@ export class AuthPage {
           this.fullName().trim(),
           this.phoneNumber().trim(),
         );
-        this.showToast(
-          'Conta criada! Verifique seu e-mail para confirmar.',
-          'success',
-        );
+        this.showToast('Conta criada com sucesso!', 'success');
         this.setMode('login');
       } else {
         await this.authService.login(this.email(), this.password());

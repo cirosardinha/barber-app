@@ -1,12 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Painel
-      @if (newCount() > 0) {
-      <ion-badge color="danger" (click)="clearNewCount()">{{ newCount() }}</ion-badge>
-      }
-    </ion-title>
     <ion-buttons slot="end">
+      <app-theme-btn />
       <ion-button fill="clear" color="medium" (click)="logout()">Sair</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -38,7 +33,8 @@
 
     <div class="manage-row">
       <button class="manage-btn" (click)="openDisablePicker()">
-        <span class="manage-icon">🚫</span> Gerenciar dias
+        Gerenciar dias
+        <span class="manage-icon">📅</span>
       </button>
       @if (disabledDays().length > 0) {
       <span class="disabled-count">{{ disabledDays().length }} dia(s) bloqueado(s)</span>

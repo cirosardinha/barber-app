@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 import {
   IonContent,
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonButton,
   IonSpinner,
-  IonBadge,
   IonModal,
   ToastController,
 } from '@ionic/angular/standalone';
@@ -17,6 +15,7 @@ import { AuthService } from 'src/app/services/auth-service';
 import { Appointment } from 'src/app/models/appointment';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
 import { Router } from '@angular/router';
+import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
 type Filter = 'SCHEDULED' | 'COMPLETED' | 'CANCELED' | 'ALL';
 
@@ -30,13 +29,12 @@ type Filter = 'SCHEDULED' | 'COMPLETED' | 'CANCELED' | 'ALL';
     FormatTimePipe,
     IonContent,
     IonHeader,
-    IonTitle,
     IonToolbar,
     IonButtons,
     IonButton,
     IonSpinner,
-    IonBadge,
     IonModal,
+    ThemeBtnComponent,
   ],
 })
 export class DashboardPage implements OnInit {
@@ -48,7 +46,6 @@ export class DashboardPage implements OnInit {
   readonly appointments = signal<Appointment[]>([]);
   readonly isLoading = signal(false);
   readonly filter = signal<Filter>('SCHEDULED');
-  readonly newCount = signal(0);
   readonly disabledDays = signal<string[]>([]);
   readonly showDisablePicker = signal(false);
   readonly disableDate = signal('');
@@ -143,10 +140,6 @@ export class DashboardPage implements OnInit {
     } catch {
       this.showToast('Erro ao cancelar.');
     }
-  }
-
-  clearNewCount(): void {
-    this.newCount.set(0);
   }
 
   async logout(): Promise<void> {
