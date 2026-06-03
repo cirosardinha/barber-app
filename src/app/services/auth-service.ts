@@ -1,5 +1,4 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { SupabaseService } from './supabase-service';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -88,11 +87,11 @@ export class AuthService {
       this.authStateSubscription.data.subscription.unsubscribe();
       this.authStateSubscription = null;
     }
+    this.session.set(null);
+    this._role.set('USER');
     this.initPromise = null;
     this.isInitialized = false;
     await this.supabase.auth.signOut();
-    this.session.set(null);
-    this._role.set('USER');
   }
 
   private async _loadRole(user: User | undefined | null): Promise<void> {
