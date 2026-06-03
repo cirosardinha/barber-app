@@ -118,10 +118,18 @@
 
       @if (disableDate()) {
       <div class="day-status-row">
+        @if (isSunday(disableDate())) {
+        @if (isSundayEnabled(disableDate())) {
+        <span class="day-status open">Domingo habilitado</span>
+        } @else {
+        <span class="day-status blocked">Domingo bloqueado</span>
+        }
+        } @else {
         @if (isDisabled(disableDate())) {
         <span class="day-status blocked">Dia bloqueado</span>
         } @else {
         <span class="day-status open">Dia aberto</span>
+        }
         }
       </div>
       }
@@ -138,10 +146,28 @@
       </div>
       }
 
+      @if (enabledSundays().length > 0) {
+      <div class="disabled-list">
+        <p class="disabled-list-label">Domingos habilitados</p>
+        @for (d of enabledSundays(); track d) {
+        <div class="disabled-list-item">
+          <span>{{ d | formatDate }}</span>
+          <button class="unblock-btn" (click)="toggleDay(d)">Desabilitar</button>
+        </div>
+        }
+      </div>
+      }
+
       <button class="modal-confirm-btn" [disabled]="!disableDate() || isTogglingDay()"
         (click)="toggleDay(disableDate())">
         @if (isTogglingDay()) { <ion-spinner name="crescent" /> }
-        @else { {{ isDisabled(disableDate()) ? 'Desbloquear dia' : 'Bloquear dia' }} }
+        @else {
+        @if (isSunday(disableDate())) {
+        {{ isSundayEnabled(disableDate()) ? 'Desabilitar domingo' : 'Habilitar domingo' }}
+        } @else {
+        {{ isDisabled(disableDate()) ? 'Desbloquear dia' : 'Bloquear dia' }}
+        }
+        }
       </button>
       <button class="modal-back-btn" [disabled]="isTogglingDay()" (click)="closeDisablePicker()">Fechar</button>
     </div>

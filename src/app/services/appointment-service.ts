@@ -93,4 +93,27 @@ export class AppointmentService {
       .eq('date', date);
     if (error) throw error;
   }
+
+  async getEnabledSundays(): Promise<string[]> {
+    const { data, error } = await this.supabase
+      .from('enabled_sundays')
+      .select('date');
+    if (error) throw error;
+    return (data as any[]).map((row) => row.date);
+  }
+
+  async enableSunday(date: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('enabled_sundays')
+      .insert({ date });
+    if (error) throw error;
+  }
+
+  async disableSunday(date: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('enabled_sundays')
+      .delete()
+      .eq('date', date);
+    if (error) throw error;
+  }
 }

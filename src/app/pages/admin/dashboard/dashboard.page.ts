@@ -55,6 +55,7 @@ export class DashboardPage implements OnInit {
   readonly isLoading = signal(false);
   readonly filter = signal<Filter>('SCHEDULED');
   readonly disabledDays = signal<string[]>([]);
+  readonly enabledSundays = signal<string[]>([]);
   readonly showDisablePicker = signal(false);
   readonly disableDate = signal('');
   readonly isTogglingDay = signal(false);
@@ -98,11 +99,11 @@ export class DashboardPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await Promise.all([this.load(), this.loadDisabledDays()]);
+    await Promise.all([this.load(), this.loadDisabledDays(), this.loadEnabledSundays()]);
   }
 
   async handleRefresh(event: any): Promise<void> {
-    await Promise.all([this.load(), this.loadDisabledDays()]);
+    await Promise.all([this.load(), this.loadDisabledDays(), this.loadEnabledSundays()]);
     event.target.complete();
   }
 
@@ -114,8 +115,25 @@ export class DashboardPage implements OnInit {
     }
   }
 
+  async loadEnabledSundays(): Promise<void> {
+    try {
+      this.enabledSundays.set(await this.appointmentService.getEnabledSundays());
+    } catch {
+      this.showToast('Erro ao carregar domingos habilitados.');
+    }
+  }
+
   isDisabled(date: string): boolean {
     return this.disabledDays().includes(date);
+  }
+
+  isSunday(date: string): boolean {
+    if (!date) return false;
+    return new Date(date + 'T00:00:00').getDay() === 0;
+  }
+
+  isSundayEnabled(date: string): boolean {
+    return this.enabledSundays().includes(date);
   }
 
   openDisablePicker(): void {
@@ -131,14 +149,26 @@ export class DashboardPage implements OnInit {
     if (!date) return;
     this.isTogglingDay.set(true);
     try {
-      if (this.isDisabled(date)) {
-        await this.appointmentService.enableDay(date);
-        this.disabledDays.update((d) => d.filter((x) => x !== date));
-        this.showToast('Dia reabilitado.', 'success');
+      if (this.isSunday(date)) {
+        if (this.isSundayEnabled(date)) {
+          await this.appointmentService.disableSunday(date);
+          this.enabledSundays.update((d) => d.filter((x) => x !== date));
+          this.showToast('Domingo desabilitado.', 'success');
+        } else {
+          await this.appointmentService.enableSunday(date);
+          this.enabledSundays.update((d) => [...d, date]);
+          this.showToast('Domingo habilitado.', 'success');
+        }
       } else {
-        await this.appointmentService.disableDay(date);
-        this.disabledDays.update((d) => [...d, date]);
-        this.showToast('Dia desabilitado.', 'success');
+        if (this.isDisabled(date)) {
+          await this.appointmentService.enableDay(date);
+          this.disabledDays.update((d) => d.filter((x) => x !== date));
+          this.showToast('Dia reabilitado.', 'success');
+        } else {
+          await this.appointmentService.disableDay(date);
+          this.disabledDays.update((d) => [...d, date]);
+          this.showToast('Dia desabilitado.', 'success');
+        }
       }
     } catch {
       this.showToast('Erro ao atualizar dia.');

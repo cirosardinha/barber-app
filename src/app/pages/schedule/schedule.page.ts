@@ -62,6 +62,7 @@ export class SchedulePage implements OnInit {
   readonly days = signal<DayOption[]>([]);
   readonly selectedDate = signal('');
   readonly disabledDays = signal<Set<string>>(new Set());
+  readonly enabledSundays = signal<Set<string>>(new Set());
   readonly slots = signal<TimeSlot[]>([]);
   readonly selectedSlot = signal('');
   readonly isLoading = signal(false);
@@ -93,6 +94,14 @@ export class SchedulePage implements OnInit {
   ngOnInit(): void {
     this._buildDays();
     this._loadDisabledDays();
+    this._loadEnabledSundays();
+  }
+
+  private async _loadEnabledSundays(): Promise<void> {
+    try {
+      const dates = await this.appointmentService.getEnabledSundays();
+      this.enabledSundays.set(new Set(dates));
+    } catch {}
   }
 
   private async _loadDisabledDays(): Promise<void> {
@@ -127,7 +136,8 @@ export class SchedulePage implements OnInit {
   }
 
   isDayBlocked(day: DayOption): boolean {
-    return day.isSunday || this.disabledDays().has(day.value);
+    if (day.isSunday) return !this.enabledSundays().has(day.value);
+    return this.disabledDays().has(day.value);
   }
 
   async selectDate(date: string): Promise<void> {
@@ -189,6 +199,7 @@ export class SchedulePage implements OnInit {
 
   async handleRefresh(event: any): Promise<void> {
     await this._loadDisabledDays();
+    await this._loadEnabledSundays();
     event.target.complete();
   }
 
