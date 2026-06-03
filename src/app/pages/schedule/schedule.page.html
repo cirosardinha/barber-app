@@ -47,10 +47,24 @@
       </div>
       }
     </div>
+
+    <!-- Todos os slots existem mas estão esgotados -->
+    @if (filteredSlots().every(s => !s.available)) {
+    <div class="empty-state">
+      <span class="empty-icon">😔</span>
+      <p class="empty-title">Dia lotado</p>
+      <p class="empty-sub">Todos os horários estão ocupados. Tente outro dia.</p>
+    </div>
+    }
     }
 
+    <!-- Nenhum slot retornado (dia sem agenda configurada) -->
     @if (!isLoading() && filteredSlots().length === 0) {
-    <p class="empty-message">Nenhum horário disponível para esta data.</p>
+    <div class="empty-state">
+      <span class="empty-icon">📭</span>
+      <p class="empty-title">Sem horários disponíveis</p>
+      <p class="empty-sub">Não há horários configurados para este dia.</p>
+    </div>
     }
 
   </div>

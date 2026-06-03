@@ -44,21 +44,56 @@ ion-button {
   }
 }
 
+// Empty state completo (lista vazia)
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 64px 0;
+  padding: 64px 24px;
+  gap: 8px;
+}
+
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 4px;
 }
 
 .empty-title {
   font-size: 15px;
   font-weight: 600;
   color: var(--ion-color-secondary);
-  margin-bottom: 6px;
+  margin: 0;
 }
 
 .empty-sub {
   font-size: 13px;
   color: var(--ion-color-medium);
+  margin: 0;
+}
+
+// Empty state inline (sem agendamentos ativos, mas tem histórico)
+.empty-state-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ion-color-step-50);
+  border: 0.5px solid var(--ion-color-light);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 24px;
+}
+
+.empty-inline-icon {
+  font-size: 16px;
+  color: var(--ion-color-success);
+  font-weight: 700;
+}
+
+.empty-inline-text {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  margin: 0;
 }
 
 .appointment-card {

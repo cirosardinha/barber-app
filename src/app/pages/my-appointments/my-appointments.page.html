@@ -20,12 +20,20 @@
 
     @if (!isLoading() && appointments().length === 0) {
     <div class="empty-state">
+      <span class="empty-icon">📅</span>
       <p class="empty-title">Nenhum agendamento</p>
       <p class="empty-sub">Agende seu horário na aba Agendar.</p>
     </div>
     }
 
-    @if (scheduled().length > 0) {
+    @if (!isLoading() && scheduled().length === 0 && appointments().length > 0) {
+    <div class="empty-state-inline">
+      <span class="empty-inline-icon">✓</span>
+      <p class="empty-inline-text">Nenhum agendamento ativo</p>
+    </div>
+    }
+
+    @if (!isLoading() && scheduled().length > 0) {
     <p class="section-label">Agendados</p>
     @for (a of scheduled(); track a.id) {
     <div class="appointment-card">
@@ -41,7 +49,7 @@
     }
     }
 
-    @if (past().length > 0) {
+    @if (!isLoading() && past().length > 0) {
     <p class="section-label past-label">Histórico</p>
     @for (a of past(); track a.id) {
     <div class="appointment-card past">
