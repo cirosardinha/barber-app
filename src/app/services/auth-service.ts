@@ -83,7 +83,7 @@ export class AuthService {
     this.initPromise = null;
     this.isInitialized = false;
     await this.supabase.auth.signOut();
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     this.session.set(null);
     this._role.set('USER');
   }

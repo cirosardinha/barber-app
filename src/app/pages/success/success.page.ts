@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular/standalone';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
+import { formatDateWithPreposition } from 'src/app/shared/utils/date.utils';
 
 @Component({
   selector: 'app-success',
@@ -24,7 +25,7 @@ export class SuccessPage implements OnInit {
 
     this.date = state?.['date'] ?? '';
     this.time = state?.['time'] ?? '';
-    this.formattedDate = this._formatDate(this.date);
+    this.formattedDate = formatDateWithPreposition(this.date);
 
     if (!this.date || !this.time) {
       this.router.navigate(['/tabs/schedule'], { replaceUrl: true });
@@ -37,27 +38,5 @@ export class SuccessPage implements OnInit {
 
   goAppointments(): void {
     this.router.navigate(['/tabs/my-appointments'], { replaceUrl: true });
-  }
-
-  private _formatDate(date: string): string {
-    if (!date) return '';
-    const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    const months = [
-      'jan',
-      'fev',
-      'mar',
-      'abr',
-      'mai',
-      'jun',
-      'jul',
-      'ago',
-      'set',
-      'out',
-      'nov',
-      'dez',
-    ];
-    const [year, month, day] = date.split('-').map(Number);
-    const d = new Date(year, month - 1, day);
-    return `${weekdays[d.getDay()]}, ${day} de ${months[month - 1]}`;
   }
 }

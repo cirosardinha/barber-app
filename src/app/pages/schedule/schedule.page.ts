@@ -19,6 +19,7 @@ import { AppointmentService } from 'src/app/services/appointment-service';
 import { AuthService } from 'src/app/services/auth-service';
 import { TimeSlot } from 'src/app/models/appointment';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
+import { formatDate } from 'src/app/shared/utils/date.utils';
 import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
 interface DayOption {
@@ -77,28 +78,9 @@ export class SchedulePage implements OnInit {
     });
   });
 
-  readonly formattedSelectedDate = computed(() => {
-    const d = this.selectedDate();
-    if (!d) return '';
-    const months = [
-      'jan',
-      'fev',
-      'mar',
-      'abr',
-      'mai',
-      'jun',
-      'jul',
-      'ago',
-      'set',
-      'out',
-      'nov',
-      'dez',
-    ];
-    const [year, month, day] = d.split('-').map(Number);
-    const date = new Date(year, month - 1, day);
-    const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    return `${weekdays[date.getDay()]}, ${day} ${months[month - 1]}`;
-  });
+  readonly formattedSelectedDate = computed(() =>
+    formatDate(this.selectedDate()),
+  );
 
   constructor() {
     addIcons({ logOutOutline });

@@ -53,7 +53,7 @@
     <div class="appointment-card" [class.dimmed]="appointment.status !== 'SCHEDULED'">
       <div class="card-top">
         <div class="card-left">
-          <span class="card-date">{{ formatDate(appointment.date) }}</span>
+          <span class="card-date">{{ appointment.date | formatDate }}</span>
           <span class="card-time">{{ appointment.time | formatTime }}</span>
         </div>
         <span class="badge" [class.scheduled]="appointment.status === 'SCHEDULED'"
@@ -105,7 +105,7 @@
         <p class="disabled-list-label">Dias bloqueados</p>
         @for (d of disabledDays(); track d) {
         <div class="disabled-list-item">
-          <span>{{ formatDate(d) }}</span>
+          <span>{{ d | formatDate }}</span>
           <button class="unblock-btn" (click)="toggleDay(d)">Desbloquear</button>
         </div>
         }

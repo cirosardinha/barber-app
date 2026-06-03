@@ -18,6 +18,7 @@ import { AppointmentService } from 'src/app/services/appointment-service';
 import { AuthService } from 'src/app/services/auth-service';
 import { Appointment } from 'src/app/models/appointment';
 import { FormatTimePipe } from 'src/app/shared/pipes/format-time.pipe';
+import { FormatDatePipe } from 'src/app/shared/pipes/format-date.pipe';
 import { Router } from '@angular/router';
 import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn.component';
 
@@ -29,6 +30,7 @@ import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn
   imports: [
     CommonModule,
     FormatTimePipe,
+    FormatDatePipe,
     IonContent,
     IonHeader,
     IonTitle,
@@ -110,34 +112,11 @@ export class MyAppointmentsPage implements OnInit {
     await this.router.navigate(['/auth'], { replaceUrl: true });
   }
 
-  formatDate(date: string): string {
-    if (!date) return '';
-    const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    const months = [
-      'jan',
-      'fev',
-      'mar',
-      'abr',
-      'mai',
-      'jun',
-      'jul',
-      'ago',
-      'set',
-      'out',
-      'nov',
-      'dez',
-    ];
-    const [year, month, day] = date.split('-').map(Number);
-    const d = new Date(year, month - 1, day);
-    return `${weekdays[d.getDay()]}, ${day} ${months[month - 1]}`;
-  }
-
   private async showToast(message: string, color = 'danger'): Promise<void> {
     const t = await this.toast.create({
       message,
       duration: 3000,
       position: 'top',
-      positionAnchor: 'header',
       color,
     });
     await t.present();

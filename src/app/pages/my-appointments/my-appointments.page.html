@@ -30,7 +30,7 @@
     @for (a of scheduled(); track a.id) {
     <div class="appointment-card">
       <div class="card-info">
-        <span class="card-date">{{ formatDate(a.date) }}</span>
+        <span class="card-date">{{ a.date | formatDate }}</span>
         <span class="card-time">{{ a.time | formatTime }}</span>
       </div>
       <div class="card-actions">
@@ -46,7 +46,7 @@
     @for (a of past(); track a.id) {
     <div class="appointment-card past">
       <div class="card-info">
-        <span class="card-date">{{ formatDate(a.date) }}</span>
+        <span class="card-date">{{ a.date | formatDate }}</span>
         <span class="card-time">{{ a.time | formatTime }}</span>
       </div>
       <div class="card-actions">
@@ -70,7 +70,7 @@
       <div class="modal-card">
         <div class="modal-row">
           <span class="modal-key">Data</span>
-          <span class="modal-value">{{ formatDate(appointmentToCancel()!.date) }}</span>
+          <span class="modal-value">{{ appointmentToCancel()!.date | formatDate }}</span>
         </div>
         <div class="modal-row">
           <span class="modal-key">Horário</span>
