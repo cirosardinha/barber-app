@@ -20,6 +20,8 @@ import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn
 
 type Filter = 'SCHEDULED' | 'COMPLETED' | 'CANCELED' | 'ALL';
 
+const PAGE_SIZE = 10;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
@@ -53,15 +55,43 @@ export class DashboardPage implements OnInit {
   readonly disableDate = signal('');
   readonly isTogglingDay = signal(false);
 
+  readonly currentPage = signal(1);
+
+  readonly appointmentToCancel = signal<Appointment | null>(null);
+  readonly isCanceling = signal(false);
+
   readonly filtered = computed(() => {
     const f = this.filter();
     if (f === 'ALL') return this.appointments();
     return this.appointments().filter((a) => a.status === f);
   });
 
+  readonly totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.filtered().length / PAGE_SIZE)),
+  );
+
+  readonly paginatedAppointments = computed(() => {
+    const page = this.currentPage();
+    const start = (page - 1) * PAGE_SIZE;
+    return this.filtered().slice(start, start + PAGE_SIZE);
+  });
+
   readonly scheduledCount = computed(
     () => this.appointments().filter((a) => a.status === 'SCHEDULED').length,
   );
+
+  setFilter(f: Filter): void {
+    this.filter.set(f);
+    this.currentPage.set(1);
+  }
+
+  prevPage(): void {
+    this.currentPage.update((p) => Math.max(1, p - 1));
+  }
+
+  nextPage(): void {
+    this.currentPage.update((p) => Math.min(this.totalPages(), p + 1));
+  }
 
   async ngOnInit(): Promise<void> {
     await Promise.all([this.load(), this.loadDisabledDays()]);
@@ -133,14 +163,30 @@ export class DashboardPage implements OnInit {
     }
   }
 
-  async cancel(a: Appointment): Promise<void> {
+  openCancelConfirm(a: Appointment): void {
+    this.appointmentToCancel.set(a);
+  }
+
+  closeCancelConfirm(): void {
+    this.appointmentToCancel.set(null);
+  }
+
+  async confirmCancel(): Promise<void> {
+    const a = this.appointmentToCancel();
+    if (!a) return;
+    this.isCanceling.set(true);
     try {
       await this.appointmentService.cancel(a.id);
       this.appointments.update((list) =>
-        list.map((x) => (x.id === a.id ? { ...x, status: 'CANCELED' } : x)),
+        list.map((x) =>
+          x.id === a.id ? { ...x, status: 'CANCELED' as const } : x,
+        ),
       );
+      this.closeCancelConfirm();
     } catch {
       this.showToast('Erro ao cancelar.');
+    } finally {
+      this.isCanceling.set(false);
     }
   }
 

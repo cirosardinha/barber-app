@@ -23,12 +23,12 @@
 
     <div class="filter-row">
       <button class="filter-btn" [class.active]="filter() === 'SCHEDULED'"
-        (click)="filter.set('SCHEDULED')">Agendados</button>
+        (click)="setFilter('SCHEDULED')">Agendados</button>
       <button class="filter-btn" [class.active]="filter() === 'COMPLETED'"
-        (click)="filter.set('COMPLETED')">Concluídos</button>
+        (click)="setFilter('COMPLETED')">Concluídos</button>
       <button class="filter-btn" [class.active]="filter() === 'CANCELED'"
-        (click)="filter.set('CANCELED')">Cancelados</button>
-      <button class="filter-btn" [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">Todos</button>
+        (click)="setFilter('CANCELED')">Cancelados</button>
+      <button class="filter-btn" [class.active]="filter() === 'ALL'" (click)="setFilter('ALL')">Todos</button>
     </div>
 
     <div class="manage-row">
@@ -46,10 +46,22 @@
     }
 
     @if (!isLoading() && filtered().length === 0) {
-    <p class="empty-message">Nenhum agendamento encontrado.</p>
+    <div class="empty-state">
+      <span class="empty-icon">📭</span>
+      <p class="empty-title">Nenhum agendamento encontrado</p>
+      <p class="empty-sub">
+        @switch (filter()) {
+        @case ('SCHEDULED') { Não há agendamentos ativos no momento. }
+        @case ('COMPLETED') { Nenhum agendamento concluído ainda. }
+        @case ('CANCELED') { Nenhum agendamento cancelado. }
+        @default { Ainda não há agendamentos cadastrados. }
+        }
+      </p>
+    </div>
     }
 
-    @for (appointment of filtered(); track appointment.id) {
+    @if (!isLoading() && filtered().length > 0) {
+    @for (appointment of paginatedAppointments(); track appointment.id) {
     <div class="appointment-card" [class.dimmed]="appointment.status !== 'SCHEDULED'">
       <div class="card-top">
         <div class="card-left">
@@ -68,15 +80,26 @@
       @if (appointment.status === 'SCHEDULED') {
       <div class="card-actions">
         <button class="action-btn complete" (click)="complete(appointment)">✓ Concluir</button>
-        <button class="action-btn cancel" (click)="cancel(appointment)">✕ Cancelar</button>
+        <button class="action-btn cancel" (click)="openCancelConfirm(appointment)">✕ Cancelar</button>
       </div>
       }
     </div>
     }
 
+    <!-- Paginação -->
+    @if (totalPages() > 1) {
+    <div class="pagination">
+      <button class="page-btn" (click)="prevPage()" [disabled]="currentPage() === 1">‹</button>
+      <span class="page-info">{{ currentPage() }} de {{ totalPages() }}</span>
+      <button class="page-btn" (click)="nextPage()" [disabled]="currentPage() === totalPages()">›</button>
+    </div>
+    }
+    }
+
   </div>
 </ion-content>
 
+<!-- Modal: Gerenciar dias -->
 <ion-modal [isOpen]="showDisablePicker()" (didDismiss)="closeDisablePicker()" [breakpoints]="[0,1]"
   [initialBreakpoint]="1" handle="true">
   <ng-template>
@@ -118,6 +141,40 @@
         @else { {{ isDisabled(disableDate()) ? 'Desbloquear dia' : 'Bloquear dia' }} }
       </button>
       <button class="modal-back-btn" [disabled]="isTogglingDay()" (click)="closeDisablePicker()">Fechar</button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- Modal: Confirmação de cancelamento -->
+<ion-modal [isOpen]="!!appointmentToCancel()" (didDismiss)="closeCancelConfirm()" [breakpoints]="[0, 1]"
+  [initialBreakpoint]="1" handle="true">
+  <ng-template>
+    <div class="modal-wrapper">
+      <h2 class="modal-title">Cancelar agendamento</h2>
+      <p class="modal-sub">Tem certeza que deseja cancelar este agendamento? Esta ação não pode ser desfeita.</p>
+
+      @if (appointmentToCancel(); as a) {
+      <div class="cancel-confirm-card">
+        <div class="cancel-confirm-row">
+          <span class="cancel-confirm-label">Cliente</span>
+          <span class="cancel-confirm-value">{{ a.full_name ?? '—' }}</span>
+        </div>
+        <div class="cancel-confirm-row">
+          <span class="cancel-confirm-label">Data</span>
+          <span class="cancel-confirm-value">{{ a.date | formatDate }}</span>
+        </div>
+        <div class="cancel-confirm-row">
+          <span class="cancel-confirm-label">Horário</span>
+          <span class="cancel-confirm-value">{{ a.time | formatTime }}</span>
+        </div>
+      </div>
+      }
+
+      <button class="modal-confirm-btn danger" [disabled]="isCanceling()" (click)="confirmCancel()">
+        @if (isCanceling()) { <ion-spinner name="crescent" /> }
+        @else { ✕ Confirmar cancelamento }
+      </button>
+      <button class="modal-back-btn" [disabled]="isCanceling()" (click)="closeCancelConfirm()">Voltar</button>
     </div>
   </ng-template>
 </ion-modal>
