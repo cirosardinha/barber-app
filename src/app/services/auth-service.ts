@@ -8,7 +8,6 @@ import { Session, User } from '@supabase/supabase-js';
 })
 export class AuthService {
   private readonly supabase = inject(SupabaseService).client;
-  private readonly router = inject(Router);
 
   readonly session = signal<Session | null>(null);
   readonly user = computed(() => this.session()?.user ?? null);
@@ -19,6 +18,9 @@ export class AuthService {
 
   private isInitialized = false;
   private initPromise: Promise<void> | null = null;
+  private authStateSubscription: {
+    data: { subscription: { unsubscribe: () => void } };
+  } | null = null;
 
   constructor() {
     this.init();
@@ -38,10 +40,12 @@ export class AuthService {
       await this._loadRole(data.session?.user);
       this.session.set(data.session);
 
-      this.supabase.auth.onAuthStateChange(async (_event, session) => {
-        await this._loadRole(session?.user);
-        this.session.set(session);
-      });
+      this.authStateSubscription = this.supabase.auth.onAuthStateChange(
+        async (_event, session) => {
+          await this._loadRole(session?.user);
+          this.session.set(session);
+        },
+      );
 
       this.isInitialized = true;
     })();
@@ -80,10 +84,13 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
+    if (this.authStateSubscription) {
+      this.authStateSubscription.data.subscription.unsubscribe();
+      this.authStateSubscription = null;
+    }
     this.initPromise = null;
     this.isInitialized = false;
     await this.supabase.auth.signOut();
-    await new Promise((resolve) => setTimeout(resolve, 0));
     this.session.set(null);
     this._role.set('USER');
   }

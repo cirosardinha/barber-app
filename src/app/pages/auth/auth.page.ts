@@ -34,6 +34,7 @@ export class AuthPage {
   readonly phoneNumber = signal('');
   readonly email = signal('');
   readonly password = signal('');
+  readonly confirmPassword = signal('');
   readonly isLoading = signal(false);
 
   readonly touched = signal({
@@ -41,6 +42,7 @@ export class AuthPage {
     phoneNumber: false,
     email: false,
     password: false,
+    confirmPassword: false,
   });
 
   private _logoClicks = 0;
@@ -80,6 +82,14 @@ export class AuthPage {
     return '';
   });
 
+  readonly confirmPasswordError = computed(() => {
+    if (!this.isRegister() || !this.touched().confirmPassword) return '';
+    if (!this.password()) return 'Senha é obrigatória';
+    if (this.password() !== this.confirmPassword())
+      return 'Senhas não conferem';
+    return '';
+  });
+
   setMode(mode: Mode): void {
     this.mode.set(mode);
     this.touched.set({
@@ -87,6 +97,7 @@ export class AuthPage {
       phoneNumber: false,
       email: false,
       password: false,
+      confirmPassword: false,
     });
   }
 
@@ -112,12 +123,14 @@ export class AuthPage {
       phoneNumber: true,
       email: true,
       password: true,
+      confirmPassword: true,
     });
     if (
       this.fullNameError() ||
       this.phoneNumberError() ||
       this.emailError() ||
-      this.passwordError()
+      this.passwordError() ||
+      this.confirmPasswordError()
     )
       return;
 
