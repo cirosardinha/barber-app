@@ -10,6 +10,8 @@ import {
   IonIcon,
   IonSpinner,
   IonModal,
+  IonRefresher,
+  IonRefresherContent,
   ToastController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -40,6 +42,8 @@ import { ThemeBtnComponent } from 'src/app/shared/components/theme-btn/theme-btn
     IonIcon,
     IonSpinner,
     IonModal,
+    IonRefresher,
+    IonRefresherContent,
     ThemeBtnComponent,
   ],
 })
@@ -80,9 +84,15 @@ export class MyAppointmentsPage implements OnInit {
     }
   }
 
+  async handleRefresh(event: any): Promise<void> {
+    await this.load();
+    event.target.complete();
+  }
+
   openCancel(a: Appointment): void {
     this.appointmentToCancel.set(a);
   }
+
   closeCancel(): void {
     this.appointmentToCancel.set(null);
   }
@@ -93,8 +103,8 @@ export class MyAppointmentsPage implements OnInit {
     this.isCancelling.set(true);
     try {
       await this.appointmentService.cancel(a.id);
-      this.appointments.update((appointment) =>
-        appointment.map((x) =>
+      this.appointments.update((list) =>
+        list.map((x) =>
           x.id === a.id ? { ...x, status: 'CANCELED' as const } : x,
         ),
       );
@@ -108,8 +118,8 @@ export class MyAppointmentsPage implements OnInit {
   }
 
   async logout(): Promise<void> {
-    await this.authService.logout();
     await this.router.navigate(['/auth'], { replaceUrl: true });
+    await this.authService.logout();
   }
 
   private async showToast(message: string, color = 'danger'): Promise<void> {

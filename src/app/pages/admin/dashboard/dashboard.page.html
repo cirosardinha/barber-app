@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content />
+  </ion-refresher>
+
   <div class="content-wrapper">
 
     <div class="stats-row">
@@ -86,7 +91,6 @@
     </div>
     }
 
-    <!-- Paginação -->
     @if (totalPages() > 1) {
     <div class="pagination">
       <button class="page-btn" (click)="prevPage()" [disabled]="currentPage() === 1">‹</button>
@@ -99,7 +103,6 @@
   </div>
 </ion-content>
 
-<!-- Modal: Gerenciar dias -->
 <ion-modal [isOpen]="showDisablePicker()" (didDismiss)="closeDisablePicker()" [breakpoints]="[0,1]"
   [initialBreakpoint]="1" handle="true">
   <ng-template>
@@ -110,15 +113,15 @@
       <div class="field">
         <label class="field-label">Data</label>
         <input class="field-input" type="date" [value]="disableDate()"
-          (input)="disableDate.set($any($event.target).value)" />
+          (input)="disableDate.set($any($event.target).value)" [min]="today" />
       </div>
 
       @if (disableDate()) {
       <div class="day-status-row">
         @if (isDisabled(disableDate())) {
-        <span class="day-status blocked">🚫 Dia bloqueado</span>
+        <span class="day-status blocked">Dia bloqueado</span>
         } @else {
-        <span class="day-status open">✓ Dia aberto</span>
+        <span class="day-status open">Dia aberto</span>
         }
       </div>
       }
@@ -145,7 +148,6 @@
   </ng-template>
 </ion-modal>
 
-<!-- Modal: Confirmação de cancelamento -->
 <ion-modal [isOpen]="!!appointmentToCancel()" (didDismiss)="closeCancelConfirm()" [breakpoints]="[0, 1]"
   [initialBreakpoint]="1" handle="true">
   <ng-template>

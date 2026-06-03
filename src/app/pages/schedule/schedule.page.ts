@@ -12,6 +12,8 @@ import {
   IonModal,
   ToastController,
   IonButtons,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { calendarOutline, logOutOutline } from 'ionicons/icons';
@@ -35,6 +37,8 @@ interface DayOption {
   styleUrls: ['./schedule.page.scss'],
   standalone: true,
   imports: [
+    IonRefresherContent,
+    IonRefresher,
     CommonModule,
     FormatTimePipe,
     IonContent,
@@ -181,6 +185,19 @@ export class SchedulePage implements OnInit {
     } finally {
       this.isConfirming.set(false);
     }
+  }
+
+  async handleRefresh(event: any): Promise<void> {
+    await this._loadDisabledDays();
+    event.target.complete();
+  }
+
+  isPastDay(day: DayOption): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selected = new Date(day.value);
+    selected.setHours(0, 0, 0, 0);
+    return selected < today;
   }
 
   async logout(): Promise<void> {

@@ -8,6 +8,8 @@ import {
   IonButton,
   IonSpinner,
   IonModal,
+  IonRefresher,
+  IonRefresherContent,
   ToastController,
 } from '@ionic/angular/standalone';
 import { AppointmentService } from 'src/app/services/appointment-service';
@@ -38,6 +40,8 @@ const PAGE_SIZE = 10;
     IonButton,
     IonSpinner,
     IonModal,
+    IonRefresher,
+    IonRefresherContent,
     ThemeBtnComponent,
   ],
 })
@@ -54,11 +58,11 @@ export class DashboardPage implements OnInit {
   readonly showDisablePicker = signal(false);
   readonly disableDate = signal('');
   readonly isTogglingDay = signal(false);
-
   readonly currentPage = signal(1);
-
   readonly appointmentToCancel = signal<Appointment | null>(null);
   readonly isCanceling = signal(false);
+
+  readonly today = new Date().toISOString().split('T')[0];
 
   readonly filtered = computed(() => {
     const f = this.filter();
@@ -95,6 +99,11 @@ export class DashboardPage implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await Promise.all([this.load(), this.loadDisabledDays()]);
+  }
+
+  async handleRefresh(event: any): Promise<void> {
+    await Promise.all([this.load(), this.loadDisabledDays()]);
+    event.target.complete();
   }
 
   async loadDisabledDays(): Promise<void> {
@@ -191,8 +200,8 @@ export class DashboardPage implements OnInit {
   }
 
   async logout(): Promise<void> {
+    await this.router.navigate(['/admin/login'], { replaceUrl: true });
     await this.authService.logout();
-    this.router.navigate(['/admin/login'], { replaceUrl: true });
   }
 
   private async showToast(message: string, color = 'danger'): Promise<void> {

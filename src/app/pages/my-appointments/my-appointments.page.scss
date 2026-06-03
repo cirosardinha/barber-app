@@ -44,7 +44,6 @@ ion-button {
   }
 }
 
-// Empty state completo (lista vazia)
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -72,7 +71,6 @@ ion-button {
   margin: 0;
 }
 
-// Empty state inline (sem agendamentos ativos, mas tem histórico)
 .empty-state-inline {
   display: flex;
   align-items: center;
