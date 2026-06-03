@@ -48,17 +48,15 @@
       }
     </div>
 
-    <!-- Todos os slots existem mas estão esgotados -->
     @if (filteredSlots().every(s => !s.available)) {
     <div class="empty-state">
-      <span class="empty-icon">😔</span>
-      <p class="empty-title">Dia lotado</p>
+      <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+      <h2 class="empty-title">Dia lotado</h2>
       <p class="empty-sub">Todos os horários estão ocupados. Tente outro dia.</p>
     </div>
     }
     }
 
-    <!-- Nenhum slot retornado (dia sem agenda configurada) -->
     @if (!isLoading() && filteredSlots().length === 0) {
     <div class="empty-state">
       <span class="empty-icon">📭</span>

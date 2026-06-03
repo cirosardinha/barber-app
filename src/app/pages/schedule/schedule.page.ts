@@ -14,7 +14,7 @@ import {
   IonButtons,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logOutOutline } from 'ionicons/icons';
+import { calendarOutline, logOutOutline } from 'ionicons/icons';
 import { AppointmentService } from 'src/app/services/appointment-service';
 import { AuthService } from 'src/app/services/auth-service';
 import { TimeSlot } from 'src/app/models/appointment';
@@ -83,7 +83,7 @@ export class SchedulePage implements OnInit {
   );
 
   constructor() {
-    addIcons({ logOutOutline });
+    addIcons({ logOutOutline, calendarOutline });
   }
 
   ngOnInit(): void {
@@ -184,8 +184,8 @@ export class SchedulePage implements OnInit {
   }
 
   async logout(): Promise<void> {
-    await this.authService.logout();
     this.router.navigate(['/auth'], { replaceUrl: true });
+    await this.authService.logout();
   }
 
   private _formatDate(d: Date): string {
