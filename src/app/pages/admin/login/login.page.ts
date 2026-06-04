@@ -61,7 +61,7 @@ export class LoginPage {
       this.showToast(
         msg.includes('Invalid login credentials')
           ? 'E-mail ou senha incorretos.'
-          : 'Erro ao entrar.',
+          : 'Erro ao entrar.'
       );
     } finally {
       this.isLoading.set(false);
@@ -69,7 +69,8 @@ export class LoginPage {
   }
 
   goBack(): void {
-    this.router.navigate(['/auth']);
+    (document.activeElement as HTMLElement)?.blur();
+    this.router.navigate(['/auth'], { replaceUrl: true });
   }
 
   private async showToast(message: string): Promise<void> {

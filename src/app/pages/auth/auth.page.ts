@@ -113,7 +113,7 @@ export class AuthPage {
     }, 2000);
     if (this._logoClicks >= 5) {
       this._logoClicks = 0;
-      this.router.navigate(['/admin/login']);
+      this.router.navigate(['/admin/login'], { replaceUrl: true });
     }
   }
 
@@ -141,7 +141,7 @@ export class AuthPage {
           this.email(),
           this.password(),
           this.fullName().trim(),
-          this.phoneNumber().trim(),
+          this.phoneNumber().trim()
         );
         this.showToast('Conta criada com sucesso!', 'success');
         this.setMode('login');
