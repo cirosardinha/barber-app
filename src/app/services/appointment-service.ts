@@ -21,8 +21,8 @@ export class AppointmentService {
     const { data, error } = await this.supabase
       .from('appointments')
       .select('*')
-      .order('date', { ascending: true })
-      .order('time', { ascending: true });
+      .order('date', { ascending: false })
+      .order('time', { ascending: false });
     if (error) throw error;
     return data as Appointment[];
   }
@@ -55,8 +55,8 @@ export class AppointmentService {
     const { data, error } = await this.supabase
       .from('appointments_with_profiles')
       .select('*')
-      .order('date', { ascending: true })
-      .order('time', { ascending: true });
+      .order('date', { ascending: false })
+      .order('time', { ascending: false });
 
     if (error) throw error;
     return data as Appointment[];
