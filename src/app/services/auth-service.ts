@@ -15,38 +15,24 @@ export class AuthService {
   private readonly _role = signal<string>('USER');
   readonly isAdmin = computed(() => this._role() === 'ADMIN');
 
-  private isInitialized = false;
   private initPromise: Promise<void> | null = null;
-  private authStateSubscription: {
-    data: { subscription: { unsubscribe: () => void } };
-  } | null = null;
 
   constructor() {
     this.init();
   }
 
-  async init(): Promise<void> {
-    if (this.isInitialized) {
-      return;
-    }
-
-    if (this.initPromise) {
-      return this.initPromise;
-    }
+  init(): Promise<void> {
+    if (this.initPromise) return this.initPromise;
 
     this.initPromise = (async () => {
       const { data } = await this.supabase.auth.getSession();
       await this._loadRole(data.session?.user);
       this.session.set(data.session);
 
-      this.authStateSubscription = this.supabase.auth.onAuthStateChange(
-        async (_event, session) => {
-          await this._loadRole(session?.user);
-          this.session.set(session);
-        },
-      );
-
-      this.isInitialized = true;
+      this.supabase.auth.onAuthStateChange(async (_event, session) => {
+        await this._loadRole(session?.user);
+        this.session.set(session);
+      });
     })();
 
     return this.initPromise;
@@ -58,39 +44,25 @@ export class AuthService {
       password,
     });
     if (error) throw error;
-
-    this.session.set(data.session);
-    await this._loadRole(data.session?.user);
   }
 
   async signUp(
     email: string,
     password: string,
     fullName: string,
-    phoneNumber: string,
+    phoneNumber: string
   ): Promise<void> {
     const { error } = await this.supabase.auth.signUp({
       email,
       password,
       options: {
-        data: {
-          full_name: fullName,
-          phone_number: phoneNumber,
-        },
+        data: { full_name: fullName, phone_number: phoneNumber },
       },
     });
     if (error) throw error;
   }
 
   async logout(): Promise<void> {
-    if (this.authStateSubscription) {
-      this.authStateSubscription.data.subscription.unsubscribe();
-      this.authStateSubscription = null;
-    }
-    this.session.set(null);
-    this._role.set('USER');
-    this.initPromise = null;
-    this.isInitialized = false;
     await this.supabase.auth.signOut();
   }
 
@@ -99,11 +71,15 @@ export class AuthService {
       this._role.set('USER');
       return;
     }
-    const { data } = await this.supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-    this._role.set(data?.role || 'USER');
+    try {
+      const { data } = await this.supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+      this._role.set(data?.role || 'USER');
+    } catch {
+      this._role.set('USER');
+    }
   }
 }
