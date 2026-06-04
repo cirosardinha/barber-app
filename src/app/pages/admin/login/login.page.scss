@@ -5,8 +5,15 @@ ion-content {
 .login-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 56px 24px 40px;
+  padding: 0 24px 40px;
   min-height: 100%;
+}
+
+.login-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-bottom: 8px;
 }
 
 .back-btn {
