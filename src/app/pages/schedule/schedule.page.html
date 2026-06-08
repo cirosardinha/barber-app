@@ -22,11 +22,11 @@
     <div class="days-row">
       @for (day of days(); track day.value) {
       <div class="day-chip" [class.active]="day.value === selectedDate()" [class.blocked]="isDayBlocked(day)"
-        [class.past]="isPastDay(day)" (click)="selectDate(day.value)">
+        [class.past]="isPastDay(day)" [class.today]="day.isToday" (click)="selectDate(day.value)">
         <span class="weekday">{{ day.weekday }}</span>
         <span class="day-number">{{ day.label }}</span>
         @if (isDayBlocked(day)) {
-        <span class="closed-icon">✕</span>
+        <div class="blocked-dot"></div>
         }
       </div>
       }

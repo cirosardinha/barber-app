@@ -9,7 +9,7 @@ ion-header ion-toolbar {
 
 ion-title {
   color: var(--ion-text-color);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 17px;
 }
 
@@ -18,56 +18,75 @@ ion-button {
 }
 
 .content-wrapper {
-  padding: 24px 16px;
+  padding: 24px 16px 100px;
 }
 
 .section-label {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ion-color-medium);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin: 0 0 12px;
+  letter-spacing: 0.07em;
+  margin: 0 0 10px;
 }
 
 .section-date {
-  color: var(--ion-color-secondary);
+  color: var(--ion-color-medium);
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
-  font-size: 11px;
+  font-size: 10px;
+  opacity: 0.7;
 }
 
 .days-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
-  margin-bottom: 28px;
-  margin-left: -8px;
-  margin-right: -8px;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 24px;
 }
 
 .day-chip {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
-  border-radius: 12px;
+  padding: 8px 0;
+  border-radius: 10px;
   border: 0.5px solid var(--ion-color-light);
-  background: var(--ion-color-step-50);
+  background: var(--ion-background-color);
   cursor: pointer;
   transition: all 0.15s;
-  gap: 4px;
+  gap: 3px;
+  position: relative;
+
+  .weekday {
+    font-size: 8px;
+    font-weight: 500;
+    color: var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .day-number {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ion-text-color);
+  }
+
+  &.today {
+    border-color: var(--ion-color-medium);
+
+    .day-number {
+      color: var(--ion-color-primary);
+    }
+  }
 
   &.active {
-    background: var(--ion-color-primary);
-    border-color: var(--ion-color-primary);
+    background: var(--ion-text-color);
+    border-color: var(--ion-text-color);
 
     .weekday {
-      color: var(--ion-color-step-200);
+      color: rgba(var(--ion-background-color-rgb), 0.5);
     }
 
     .day-number {
@@ -75,10 +94,14 @@ ion-button {
     }
   }
 
+  &.active.today .day-number {
+    color: var(--ion-background-color);
+  }
+
   &.blocked {
-    cursor: default;
-    opacity: 0.45;
+    opacity: 0.38;
     border-color: var(--ion-color-danger);
+    cursor: default;
 
     .weekday {
       color: var(--ion-color-danger);
@@ -90,37 +113,29 @@ ion-button {
       text-decoration: line-through;
     }
   }
+
+  &.past {
+    opacity: 0.18;
+    cursor: default;
+    pointer-events: none;
+  }
 }
 
-.closed-icon {
-  font-size: 9px;
-  color: var(--ion-color-danger);
-  font-weight: 700;
-  line-height: 1;
-}
-
-.weekday {
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--ion-color-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-}
-
-.day-number {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ion-color-secondary);
+.blocked-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ion-color-danger);
 }
 
 .slots-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 7px;
 }
 
 .slot-chip {
-  padding: 13px 8px;
+  padding: 12px 4px;
   border-radius: 10px;
   text-align: center;
   font-size: 13px;
@@ -129,24 +144,24 @@ ion-button {
   transition: all 0.15s;
 
   &.available {
-    background: var(--ion-color-step-50);
-    color: var(--ion-color-secondary);
+    background: var(--ion-background-color);
+    color: var(--ion-text-color);
     cursor: pointer;
   }
 
   &.selected {
-    background: var(--ion-color-primary);
+    background: var(--ion-text-color);
+    border-color: var(--ion-text-color);
     color: var(--ion-background-color);
-    border-color: var(--ion-color-primary);
-    font-weight: 700;
     cursor: pointer;
   }
 
   &.taken {
-    background: var(--ion-color-step-50);
-    color: var(--ion-color-step-200);
+    background: var(--ion-background-color);
+    color: var(--ion-color-medium);
     cursor: default;
     text-decoration: line-through;
+    opacity: 0.5;
   }
 }
 
@@ -156,7 +171,7 @@ ion-button {
   padding: 48px 0;
 
   ion-spinner {
-    --color: var(--ion-color-secondary);
+    --color: var(--ion-color-medium);
   }
 }
 
@@ -170,13 +185,14 @@ ion-button {
 }
 
 .empty-icon {
-  font-size: 36px;
+  font-size: 32px;
   margin-bottom: 4px;
+  opacity: 0.5;
 }
 
 .empty-title {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ion-text-color);
   margin: 0;
 }
@@ -187,29 +203,26 @@ ion-button {
   margin: 0;
 }
 
-.past {
-  opacity: 0.2;
-}
-
 .footer-cta {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 12px 16px calc(16px + var(--ion-safe-area-bottom));
+  padding: 12px 16px calc(12px + var(--ion-safe-area-bottom));
   background: var(--ion-background-color);
   border-top: 0.5px solid var(--ion-color-light);
 }
 
 .cta-btn {
   width: 100%;
-  background: var(--ion-color-primary);
+  background: var(--ion-text-color);
   color: var(--ion-background-color);
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 15px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
+  font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -234,7 +247,7 @@ ion-button {
 
 .modal-title {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--ion-text-color);
   margin: 0 0 4px;
 }
@@ -246,7 +259,7 @@ ion-button {
 }
 
 .modal-card {
-  background: var(--ion-color-step-50);
+  background: var(--ion-color-step-50, #f9f9f9);
   border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 4px 16px;
@@ -259,7 +272,7 @@ ion-button {
   padding: 12px 0;
 
   &+& {
-    border-top: 0.5px solid var(--ion-color-step-100);
+    border-top: 0.5px solid var(--ion-color-light);
   }
 }
 
@@ -270,19 +283,20 @@ ion-button {
 
 .modal-value {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ion-text-color);
 }
 
 .modal-confirm-btn {
   width: 100%;
-  background: var(--ion-color-primary);
+  background: var(--ion-text-color);
   color: var(--ion-background-color);
   border: none;
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
+  font-family: inherit;
   cursor: pointer;
   margin-bottom: 10px;
   display: flex;
@@ -303,15 +317,17 @@ ion-button {
 .modal-back-btn {
   width: 100%;
   background: transparent;
-  color: var(--ion-color-secondary);
+  color: var(--ion-text-color);
   border: 0.5px solid var(--ion-color-light);
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
+  font-family: inherit;
   cursor: pointer;
+  opacity: 0.7;
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
   }
 }

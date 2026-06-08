@@ -29,6 +29,7 @@ interface DayOption {
   weekday: string;
   label: string;
   isSunday: boolean;
+  isToday: boolean;
 }
 
 @Component({
@@ -71,7 +72,10 @@ export class SchedulePage implements OnInit {
 
   readonly filteredSlots = computed(() => {
     const today = new Date();
-    const isToday = this.selectedDate() === this._formatDate(today);
+    const [y, m, d] = this.selectedDate().split('-').map(Number);
+    const isToday =
+      new Date(y, m - 1, d).toDateString() === today.toDateString();
+
     return this.slots().map((slot) => {
       if (isToday) {
         const [h, m] = slot.time.split(':').map(Number);
@@ -84,17 +88,21 @@ export class SchedulePage implements OnInit {
   });
 
   readonly formattedSelectedDate = computed(() =>
-    formatDate(this.selectedDate()),
+    formatDate(this.selectedDate())
   );
 
   constructor() {
     addIcons({ logOutOutline, calendarOutline });
   }
 
-  ngOnInit(): void {
-    this._buildDays();
-    this._loadDisabledDays();
-    this._loadEnabledSundays();
+  async ngOnInit(): Promise<void> {
+    this.isLoading.set(true);
+    try {
+      await Promise.all([this._loadDisabledDays(), this._loadEnabledSundays()]);
+      this._buildDays();
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
   private async _loadEnabledSundays(): Promise<void> {
@@ -115,6 +123,7 @@ export class SchedulePage implements OnInit {
     const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const days: DayOption[] = [];
     const today = new Date();
+    const formatedToday = this._formatDate(today);
 
     const dayOfWeek = today.getDay();
     const sunday = new Date(today);
@@ -128,11 +137,17 @@ export class SchedulePage implements OnInit {
         weekday: weekdays[day.getDay()],
         label: String(day.getDate()),
         isSunday: day.getDay() === 0,
+        isToday: this._formatDate(day) === formatedToday,
       });
     }
     this.days.set(days);
-    const firstAvailable = days.find((d) => !d.isSunday);
-    if (firstAvailable) this.selectDate(firstAvailable.value);
+    const firstAvailable = days.find((d) => !this.isDayBlocked(d));
+    if (firstAvailable) {
+      this.selectDate(firstAvailable.value);
+    } else {
+      const fallback = days.find((d) => !d.isSunday);
+      if (fallback) this.selectDate(fallback.value);
+    }
   }
 
   isDayBlocked(day: DayOption): boolean {
@@ -174,7 +189,7 @@ export class SchedulePage implements OnInit {
     try {
       const appointment = await this.appointmentService.create(
         this.selectedDate(),
-        this.selectedSlot(),
+        this.selectedSlot()
       );
       this.closeConfirmModal();
       this.router.navigate(['/success'], {
@@ -206,8 +221,10 @@ export class SchedulePage implements OnInit {
   isPastDay(day: DayOption): boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const selected = new Date(day.value);
-    selected.setHours(0, 0, 0, 0);
+
+    const [year, month, date] = day.value.split('-').map(Number);
+    const selected = new Date(year, month - 1, date);
+
     return selected < today;
   }
 
@@ -217,7 +234,10 @@ export class SchedulePage implements OnInit {
   }
 
   private _formatDate(d: Date): string {
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${String(d.getDate()).padStart(2, '0')}`;
   }
 
   private async showToast(message: string): Promise<void> {
