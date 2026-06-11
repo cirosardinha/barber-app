@@ -141,12 +141,16 @@ export class SchedulePage implements OnInit {
       });
     }
     this.days.set(days);
-    const firstAvailable = days.find((d) => !this.isDayBlocked(d));
-    if (firstAvailable) {
-      this.selectDate(firstAvailable.value);
+    const todayDay = days.find(
+      (d) => d.value === formatedToday && !this.isDayBlocked(d)
+    );
+    if (todayDay) {
+      this.selectDate(todayDay.value);
     } else {
-      const fallback = days.find((d) => !d.isSunday);
-      if (fallback) this.selectDate(fallback.value);
+      const firstAvailable = days.find((d) => !this.isDayBlocked(d));
+      if (firstAvailable) {
+        this.selectDate(firstAvailable.value);
+      }
     }
   }
 
