@@ -52,12 +52,7 @@ export class AppointmentService {
   }
 
   async getAll(): Promise<Appointment[]> {
-    const { data, error } = await this.supabase
-      .from('appointments_with_profiles')
-      .select('*')
-      .order('date', { ascending: false })
-      .order('time', { ascending: false });
-
+    const { data, error } = await this.supabase.rpc('get_all_appointments');
     if (error) throw error;
     return data as Appointment[];
   }
